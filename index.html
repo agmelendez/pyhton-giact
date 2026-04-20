@@ -16,7 +16,15 @@
 
   <div class="container">
     <nav class="sidebar">
-      <h2>Casos / Técnicas</h2>
+      <h2>Menú por tipo de análisis</h2>
+      <div class="analysis-filter" aria-label="Filtro por tipo de análisis">
+        <button id="filter-cuantitativo" class="analysis-filter-btn active" type="button" data-filter="cuantitativo">
+          Cuantitativo
+        </button>
+        <button id="filter-cualitativo" class="analysis-filter-btn" type="button" data-filter="cualitativo">
+          Cualitativo
+        </button>
+      </div>
       <ul id="case-list" class="case-list">
         <!-- populated by JS -->
       </ul>
@@ -27,7 +35,7 @@
           <li>Supuestos</li>
           <li>Práctica (paso a paso)</li>
           <li>Fragmentos de código</li>
-          <li>Try it (ejecutar / descargar)</li>
+          <li>Cómo ejecutarlo (ejecutar / descargar)</li>
         </ul>
       </div>
     </nav>
@@ -70,7 +78,7 @@
         <div class="panel-content">
           <pre><code id="code-snippet" class="code language-python"># Selecciona un caso para ver código...</code></pre>
           <div class="code-actions">
-            <button id="download-code" class="btn-primary">Descargar snippet (.py)</button>
+            <button id="download-code" class="btn-primary">Descargar fragmento (.py)</button>
             <button id="copy-code" class="btn-secondary">Copiar al portapapeles</button>
           </div>
         </div>
@@ -78,7 +86,7 @@
 
       <section class="panel" data-collapsible-panel>
         <div class="panel-header">
-          <h3>Try it — Instrucciones</h3>
+          <h3>Cómo ejecutarlo — Instrucciones</h3>
           <button class="toggle-panel-btn" type="button" aria-expanded="true">Reducir</button>
         </div>
         <div id="tryit" class="content panel-content"></div>
@@ -94,6 +102,86 @@
     console.log('🚀 Iniciando interfaz de casos...');
     
     let casesData = [];
+    let activeFilter = 'cuantitativo';
+
+    function normalizarTexto(valor) {
+      return (valor || '')
+        .toString()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase();
+    }
+
+    function detectarTipoAnalisis(caso) {
+      const texto = normalizarTexto(`${caso.title} ${caso.source} ${caso.id}`);
+      const pistasCualitativas = [
+        'cualitativo',
+        'sentimiento',
+        'preguntas abiertas',
+        'codificacion',
+        'codifiacio',
+        'entrevista',
+        'texto'
+      ];
+      return pistasCualitativas.some((pista) => texto.includes(pista))
+        ? 'cualitativo'
+        : 'cuantitativo';
+    }
+
+    function obtenerEtiquetaTipo(tipo) {
+      return tipo === 'cualitativo' ? 'Cualitativo' : 'Cuantitativo';
+    }
+
+    function renderCaseList() {
+      const list = document.getElementById('case-list');
+      if (!list) return;
+
+      list.innerHTML = '';
+      const casosFiltrados = (casesData.cases || []).filter((caso) => caso.analysisType === activeFilter);
+
+      if (casosFiltrados.length === 0) {
+        list.innerHTML = '<li><em style="color: #999;">No hay casos disponibles para este tipo de análisis.</em></li>';
+        return;
+      }
+
+      casosFiltrados.forEach((c, idx) => {
+        const li = document.createElement('li');
+        const btn = document.createElement('button');
+        btn.textContent = c.title || `Caso ${idx + 1}`;
+        btn.className = 'case-btn';
+        btn.setAttribute('data-case-id', c.id);
+        btn.onclick = (e) => {
+          e.preventDefault();
+          showCase(c);
+        };
+
+        const badge = document.createElement('span');
+        badge.className = 'analysis-badge';
+        badge.textContent = obtenerEtiquetaTipo(c.analysisType);
+        btn.appendChild(document.createElement('br'));
+        btn.appendChild(badge);
+
+        li.appendChild(btn);
+        list.appendChild(li);
+      });
+
+      const primerCaso = casosFiltrados[0];
+      if (primerCaso) {
+        showCase(primerCaso);
+      }
+    }
+
+    function setupAnalysisFilter() {
+      document.querySelectorAll('.analysis-filter-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          activeFilter = btn.dataset.filter || 'cuantitativo';
+          document.querySelectorAll('.analysis-filter-btn').forEach((item) => {
+            item.classList.toggle('active', item === btn);
+          });
+          renderCaseList();
+        });
+      });
+    }
 
     function setupCollapsiblePanels() {
       document.querySelectorAll('[data-collapsible-panel]').forEach((panel) => {
@@ -125,50 +213,21 @@
         console.log(`✅ cases.json cargado correctamente. Casos encontrados: ${data.cases?.length || 0}`);
         
         casesData = data;
-        const list = document.getElementById('case-list');
-        
-        if (!list) {
-          console.error('❌ ERROR: No se encontró elemento #case-list');
-          return;
-        }
-        
-        // Limpiar lista
-        list.innerHTML = '';
-        
         // Verificar que hay casos
         if (!data.cases || data.cases.length === 0) {
           console.warn('⚠️ No hay casos en cases.json');
-          list.innerHTML = '<li><em style="color: #999;">No hay casos disponibles</em></li>';
+          const list = document.getElementById('case-list');
+          if (list) {
+            list.innerHTML = '<li><em style="color: #999;">No hay casos disponibles</em></li>';
+          }
           return;
         }
-        
-        // Crear botones para cada caso
-        data.cases.forEach((c, idx) => {
-          const li = document.createElement('li');
-          const btn = document.createElement('button');
-          btn.textContent = c.title || `Caso ${idx + 1}`;
-          btn.className = 'case-btn';
-          btn.setAttribute('data-case-id', c.id);
-          btn.onclick = (e) => {
-            e.preventDefault();
-            showCase(c);
-          };
-          li.appendChild(btn);
-          list.appendChild(li);
-          console.log(`  ✓ Caso ${idx + 1}: "${c.title}"`);
-        });
-        
-        // Auto-cargar primer caso después de renderizar
-        setTimeout(() => {
-          console.log('⏱️ Cargando primer caso automáticamente...');
-          const firstBtn = list.querySelector('button:first-child');
-          if (firstBtn) {
-            console.log('✓ Simulando click en primer botón');
-            firstBtn.click();
-          } else {
-            console.warn('⚠️ No se encontró primer botón');
-          }
-        }, 200);
+
+        data.cases = data.cases.map((caso) => ({
+          ...caso,
+          analysisType: detectarTipoAnalisis(caso)
+        }));
+        renderCaseList();
         
       } catch (error) {
         console.error('❌ ERROR al cargar cases.json:', error);
@@ -238,7 +297,7 @@
         const tryitElem = document.getElementById('tryit');
         if (tryitElem) {
           tryitElem.innerHTML = c.tryit || '<em>Instrucciones no disponibles.</em>';
-          console.log('  ✓ Try it cargado');
+          console.log('  ✓ Sección "Cómo ejecutarlo" cargada');
         }
         
         // Configurar event listeners para botones
@@ -311,11 +370,13 @@
       console.log('📋 DOM aún cargando, esperando DOMContentLoaded...');
       document.addEventListener('DOMContentLoaded', () => {
         setupCollapsiblePanels();
+        setupAnalysisFilter();
         loadCases();
       });
     } else {
       console.log('📋 DOM ya cargado, iniciando loadCases()...');
       setupCollapsiblePanels();
+      setupAnalysisFilter();
       loadCases();
     }
     
