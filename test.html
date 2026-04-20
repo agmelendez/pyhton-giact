@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test - Verificar cases.json</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    .success { color: green; }
+    .error { color: red; }
+    pre { background: #f0f0f0; padding: 10px; overflow: auto; }
+  </style>
+</head>
+<body>
+  <h1>🔍 Prueba de Carga de cases.json</h1>
+  
+  <h2>Verificando que el archivo cases.json es accesible...</h2>
+  <div id="result"></div>
+
+  <script>
+    const resultDiv = document.getElementById('result');
+    
+    fetch('cases.json')
+      .then(response => {
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        return response.json();
+      })
+      .then(data => {
+        resultDiv.innerHTML = `
+          <p class="success">✅ <strong>cases.json se cargó correctamente</strong></p>
+          <p>Casos encontrados: <strong>${data.cases.length}</strong></p>
+          <h3>Lista de casos:</h3>
+          <ul>
+            ${data.cases.map(c => `<li><strong>${c.id}</strong> - ${c.title}</li>`).join('')}
+          </ul>
+          <h3>Detalles del primer caso:</h3>
+          <pre>${JSON.stringify(data.cases[0], null, 2).substring(0, 500)}...</pre>
+          <p style="color: blue;"><strong>✓ Ahora abre <a href="index.html">index.html</a> y debería funcionar correctamente</strong></p>
+        `;
+      })
+      .catch(error => {
+        resultDiv.innerHTML = `
+          <p class="error">❌ <strong>Error al cargar cases.json:</strong></p>
+          <p>${error.message}</p>
+          <p><strong>Soluciones:</strong></p>
+          <ul>
+            <li>Verifica que cases.json está en la misma carpeta que test.html</li>
+            <li>Asegúrate que el JSON es válido: <code>python3 -m json.tool cases.json</code></li>
+            <li>Si usas Safari, intenta con Chrome o Firefox</li>
+          </ul>
+        `;
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,227 @@
+┌─────────────────────────────────────────────────────────────────────┐
+│                                                                       │
+│  🌊 GUÍA INTERACTIVA: TÉCNICAS PARA GESTIÓN MARINO-COSTERA          │
+│                                                                       │
+│  Interfaz Web Educativa — HTML/CSS/JSON                             │
+│                                                                       │
+└─────────────────────────────────────────────────────────────────────┘
+
+📁 ESTRUCTURA DE ARCHIVOS
+═══════════════════════════════════════════════════════════════════════
+
+guided_interface/
+│
+├─── 🌐 index.html ⭐ ABRE ESTO EN NAVEGADOR
+│    └─ Página web interactiva con todas las técnicas
+│       • Carga cases.json con JavaScript
+│       • Interfaz limpia con navegación lateral
+│       • Botones para descargar y copiar código
+│
+├─── 🎨 styles.css
+│    └─ Estilos CSS modernos y responsivos
+│       • Colores: azul marino (#0b67a3) + gradientes
+│       • Tipografía: system fonts (Apple, Segoe UI)
+│       • Responsive: se adapta a tablet y móvil
+│
+├─── 📋 cases.json ⭐ CONTENIDO PRINCIPAL
+│    └─ Archivo JSON con 4 casos:
+│       1. Árboles de Decisión (decision-trees)
+│       2. PCA (pca-multivariate)
+│       3. K-Means Clustering (kmeans-clustering)
+│       4. ANOVA (anova-test)
+│
+│       Cada caso contiene:
+│       ├─ theory:      <html> con explicación teórica
+│       ├─ assumptions: <html> con supuestos del método
+│       ├─ practice:    <html> con ejemplo paso a paso
+│       ├─ code:        Python completo y ejecutable
+│       └─ tryit:       <html> con instrucciones
+│
+├─── 🚀 run_example.py
+│    └─ Ejecutor interactivo de ejemplos
+│       • Menú en terminal para seleccionar casos
+│       • Ejecuta código Python directamente
+│       • Exporta snippets como archivos .py
+│
+├─── 🔧 extract_text.py
+│    └─ Utilidad para extraer texto de documentos
+│       • Lee .docx (Word) y .pptx (PowerPoint)
+│       • Genera archivos .txt en carpeta extracted/
+│       • Usado para poblar cases.json
+│
+├─── 📖 README.md
+│    └─ Documentación completa
+│       • Guía de uso
+│       • Estructura de archivos
+│       • Cómo personalizar
+│
+├─── 🚀 INICIO_RAPIDO.md ⭐ LEE ESTO PRIMERO
+│    └─ Guía rápida paso a paso
+│       • Cómo abrir la interfaz
+│       • Cómo ejecutar código
+│       • Preguntas frecuentes
+│
+├─── requirements.txt
+│    └─ Dependencias Python
+│       • python-docx (lectura de Word)
+│       • python-pptx (lectura de PowerPoint)
+│
+└─── 📁 extracted/
+     └─ Archivos de texto extraídos
+        ├─ Guia_Laboratorios_Python_GIACT_2026.txt (2.4 KB)
+        └─ Metodos_Analisis_Cuantitativo.txt (44 KB)
+
+
+🎯 FLUJO DE USO
+═══════════════════════════════════════════════════════════════════════
+
+Usuario (Estudiante)
+   │
+   ├─→ 1. Abre index.html en navegador
+   │   └─ Interfaz web se carga
+   │
+   ├─→ 2. Selecciona un caso (ej: Árboles de Decisión)
+   │   └─ Lee Teoría → Supuestos → Práctica → Código
+   │
+   ├─→ 3. Obtiene el código Python
+   │   ├─ Opción A: Descarga como .py
+   │   ├─ Opción B: Copia al portapapeles
+   │   └─ Opción C: Copia y pega manual
+   │
+   └─→ 4. Ejecuta código en Python
+       ├─ Opción 1: Jupyter Notebook
+       ├─ Opción 2: run_example.py
+       ├─ Opción 3: Google Colab
+       └─ Opción 4: IDE local (VS Code, PyCharm)
+
+
+📊 TÉCNICAS DISPONIBLES
+═══════════════════════════════════════════════════════════════════════
+
+1️⃣  ÁRBOLES DE DECISIÓN
+    ┌─ Teoría:    Particionamiento jerárquico, criterios Gini/Entropía
+    ├─ Supuestos: Datos representativos, etiquetado de calidad
+    ├─ Práctica:  Predicción de biodiversidad marina
+    ├─ Código:    100 líneas (scikit-learn, visualización)
+    └─ Ejemplo:   Clasifica hábitats por T°, salinidad, pH, nitratos
+
+2️⃣  ANÁLISIS PCA
+    ┌─ Teoría:    Componentes principales, reducción dimensional
+    ├─ Supuestos: Variables continuas, estandarización, correlaciones
+    ├─ Práctica:  Análisis de 8 variables oceanográficas
+    ├─ Código:    80 líneas (scree plot, biplot)
+    └─ Ejemplo:   Proyecta 20 estaciones a 2 componentes
+
+3️⃣  K-MEANS CLUSTERING
+    ┌─ Teoría:    Iteración de asignación-actualización
+    ├─ Supuestos: Clusters esféricos, tamaño similar
+    ├─ Práctica:  Segmentación de hábitats marinos
+    ├─ Código:    90 líneas (método del codo, silhouette)
+    └─ Ejemplo:   Agrupa 50 sitios en 3 hábitats
+
+4️⃣  ANOVA
+    ┌─ Teoría:    Contraste de hipótesis F, post-hoc
+    ├─ Supuestos: Normalidad, homocedasticidad, independencia
+    ├─ Práctica:  Comparación entre 3 regiones costeras
+    ├─ Código:    85 líneas (Tukey HSD, eta-squared)
+    └─ Ejemplo:   Compara biodiversidad en región 1,2,3
+
+
+💻 REQUISITOS
+═══════════════════════════════════════════════════════════════════════
+
+Para usar la interfaz web:
+  ✓ Navegador moderno (Chrome, Firefox, Safari, Edge)
+  ✓ No se necesita instalar nada
+
+Para ejecutar código Python:
+  ✓ Python 3.8+
+  ✓ pip (gestor de paquetes)
+  
+Librerías (instala con: pip install -r requirements.txt):
+  ✓ scikit-learn    (machine learning)
+  ✓ pandas          (manipulación de datos)
+  ✓ numpy           (cálculos numéricos)
+  ✓ matplotlib      (gráficos estáticos)
+  ✓ scipy           (estadística)
+  ✓ seaborn         (visualización avanzada)
+
+
+🔄 PROCESO DE CREACIÓN
+═══════════════════════════════════════════════════════════════════════
+
+1. Inventarié 20 notebooks (.ipynb) en el workspace
+2. Extraje contenido del Word (Guía) y PowerPoint (Métodos)
+3. Leí los notebooks de técnicas clave
+4. Estructuré: Teoría + Supuestos + Práctica + Código
+5. Creé interfaz HTML/CSS con JavaScript
+6. Poblé cases.json con 4 casos detallados
+7. Añadí utilidades: run_example.py, extract_text.py
+8. Documenté: README.md, INICIO_RAPIDO.md
+
+
+✨ CARACTERÍSTICAS
+═══════════════════════════════════════════════════════════════════════
+
+✅ Interfaz limpia y moderna
+   • Diseño responsive (funciona en desktop, tablet, móvil)
+   • Colores profesionales con identidad visual marina
+   • Navegación intuitiva
+
+✅ Contenido pedagógico completo
+   • Teoría + Supuestos + Práctica + Código
+   • Ejemplos reales de gestión marino-costera
+   • Ejercicios incluidos en notebooks
+
+✅ Código ejecutable
+   • Resaltado de sintaxis Python
+   • Copia/descarga con un clic
+   • Comentarios explicativos
+
+✅ Instrucciones claras
+   • "Try It" con pasos paso a paso
+   • Múltiples opciones de ejecución (local, Colab, terminal)
+   • Gestión de dependencias
+
+✅ Completamente offline (excepto CDN de resaltado)
+   • Abre en navegador sin servidor
+   • Funciona sin internet (desactiva CDN en HTML)
+   • Portátil: copia la carpeta a cualquier lugar
+
+
+🛠 PERSONALIZACIÓN
+═══════════════════════════════════════════════════════════════════════
+
+Para añadir nuevo caso:
+  1. Abre cases.json
+  2. Copia el objeto de un caso existente
+  3. Modifica fields: id, title, source, theory, assumptions, practice, code, tryit
+  4. Guarda y recarga index.html
+
+Para cambiar estilos:
+  1. Edita styles.css
+  2. Variables en :root {} controlan colores
+  3. Recarga la página
+
+Para cambiar texto de interfaz:
+  1. Edita en index.html (títulos, textos fijos)
+  2. Usa variables en cases.json para contenido dinámico
+
+
+📞 PRÓXIMOS PASOS OPCIONALES
+═══════════════════════════════════════════════════════════════════════
+
+□ Agregar más casos (Time Series, Regresión, Naive Bayes, etc.)
+□ Embeber en LMS (Canvas, Moodle, Blackboard)
+□ Crear versión interactiva con kernel Python (Pyodide)
+□ Añadir cuestionarios de autoevaluación
+□ Generar certificados de completitud
+□ Traducir a otros idiomas
+□ Crear versión para móvil (Progressive Web App)
+
+
+═════════════════════════════════════════════════════════════════════════
+
+          🚀 ¡LISTO PARA USAR! Abre index.html en tu navegador
+
+═════════════════════════════════════════════════════════════════════════

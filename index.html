@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Guía interactiva — Técnicas para la gestión marino-costera</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <h1>Guía interactiva: Técnicas y casos en gestión marino-costera</h1>
+    <p class="subtitle">Repasa teoría, supuestos y práctica con ejemplos guiados a tu ritmo.</p>
+  </header>
+
+  <div class="container">
+    <nav class="sidebar">
+      <h2>Casos / Técnicas</h2>
+      <ul id="case-list" class="case-list">
+        <!-- populated by JS -->
+      </ul>
+      <div class="legend">
+        <strong>Secciones por caso</strong>
+        <ul>
+          <li>Teoría</li>
+          <li>Supuestos</li>
+          <li>Práctica (paso a paso)</li>
+          <li>Fragmentos de código</li>
+          <li>Try it (ejecutar / descargar)</li>
+        </ul>
+      </div>
+    </nav>
+
+    <main id="main" class="main">
+      <section id="case-header" class="case-header">
+        <h2 id="case-title">Selecciona un caso</h2>
+        <p id="case-source" class="muted"></p>
+      </section>
+
+      <section class="panel">
+        <h3>Teoría</h3>
+        <div id="theory" class="content"></div>
+      </section>
+
+      <section class="panel">
+        <h3>Supuestos</h3>
+        <div id="assumptions" class="content"></div>
+      </section>
+
+      <section class="panel">
+        <h3>Práctica — Ejemplo paso a paso</h3>
+        <div id="practice" class="content"></div>
+      </section>
+
+      <section class="panel">
+        <h3>Fragmento de código</h3>
+        <pre><code id="code-snippet" class="code language-python"># Selecciona un caso para ver código...</code></pre>
+        <div class="code-actions">
+          <button id="download-code" class="btn-primary">Descargar snippet (.py)</button>
+          <button id="copy-code" class="btn-secondary">Copiar al portapapeles</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h3>Try it — Instrucciones</h3>
+        <div id="tryit" class="content"></div>
+      </section>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <small>Creado para la formación GIACT 2026 — interfaz de revisión y práctica.</small>
+  </footer>
+
+  <script>
+    console.log('🚀 Iniciando interfaz de casos...');
+    
+    let casesData = [];
+
+    // Carga el manifiesto de casos desde cases.json
+    async function loadCases() {
+      try {
+        console.log('📥 Buscando cases.json en el directorio actual...');
+        
+        // Intentar fetch con error handling detallado
+        const resp = await fetch('cases.json');
+        
+        if (!resp.ok) {
+          throw new Error(`HTTP ${resp.status}: ${resp.statusText}`);
+        }
+        
+        const data = await resp.json();
+        console.log(`✅ cases.json cargado correctamente. Casos encontrados: ${data.cases?.length || 0}`);
+        
+        casesData = data;
+        const list = document.getElementById('case-list');
+        
+        if (!list) {
+          console.error('❌ ERROR: No se encontró elemento #case-list');
+          return;
+        }
+        
+        // Limpiar lista
+        list.innerHTML = '';
+        
+        // Verificar que hay casos
+        if (!data.cases || data.cases.length === 0) {
+          console.warn('⚠️ No hay casos en cases.json');
+          list.innerHTML = '<li><em style="color: #999;">No hay casos disponibles</em></li>';
+          return;
+        }
+        
+        // Crear botones para cada caso
+        data.cases.forEach((c, idx) => {
+          const li = document.createElement('li');
+          const btn = document.createElement('button');
+          btn.textContent = c.title || `Caso ${idx + 1}`;
+          btn.className = 'case-btn';
+          btn.setAttribute('data-case-id', c.id);
+          btn.onclick = (e) => {
+            e.preventDefault();
+            showCase(c);
+          };
+          li.appendChild(btn);
+          list.appendChild(li);
+          console.log(`  ✓ Caso ${idx + 1}: "${c.title}"`);
+        });
+        
+        // Auto-cargar primer caso después de renderizar
+        setTimeout(() => {
+          console.log('⏱️ Cargando primer caso automáticamente...');
+          const firstBtn = list.querySelector('button:first-child');
+          if (firstBtn) {
+            console.log('✓ Simulando click en primer botón');
+            firstBtn.click();
+          } else {
+            console.warn('⚠️ No se encontró primer botón');
+          }
+        }, 200);
+        
+      } catch (error) {
+        console.error('❌ ERROR al cargar cases.json:', error);
+        console.error('   Stack:', error.stack);
+        
+        const list = document.getElementById('case-list');
+        if (list) {
+          list.innerHTML = `<li style="color: red; font-size: 12px;"><strong>⚠️ Error:</strong> ${error.message}</li>`;
+        }
+        
+        // Mostrar también en el área principal
+        const theory = document.getElementById('theory');
+        if (theory) {
+          theory.innerHTML = `<pre style="color: red; background: #fee; padding: 10px; border-radius: 4px;">ERROR: ${error.message}\n\nIntenta:\n1. Asegúrate de que cases.json está en el mismo directorio que index.html\n2. Recarga la página (Ctrl+F5)\n3. Abre la consola (F12) para ver más detalles</pre>`;
+        }
+      }
+    }
+
+    function showCase(c) {
+      try {
+        console.log(`\n📖 Mostrando caso: "${c.title}" (${c.id})`);
+        
+        // Actualizar header
+        const titleElem = document.getElementById('case-title');
+        const sourceElem = document.getElementById('case-source');
+        
+        if (titleElem) titleElem.textContent = c.title || 'Sin título';
+        if (sourceElem) sourceElem.textContent = '📁 Fuente: ' + (c.source || 'No especificada');
+        
+        // Actualizar teoría
+        const theoryElem = document.getElementById('theory');
+        if (theoryElem) {
+          theoryElem.innerHTML = c.theory || '<em>Teoría no disponible.</em>';
+          console.log('  ✓ Teoría cargada');
+        }
+        
+        // Actualizar supuestos
+        const assumElem = document.getElementById('assumptions');
+        if (assumElem) {
+          assumElem.innerHTML = c.assumptions || '<em>Supuestos no disponibles.</em>';
+          console.log('  ✓ Supuestos cargados');
+        }
+        
+        // Actualizar práctica
+        const practiceElem = document.getElementById('practice');
+        if (practiceElem) {
+          practiceElem.innerHTML = c.practice || '<em>Práctica no disponible.</em>';
+          console.log('  ✓ Práctica cargada');
+        }
+        
+        // Actualizar código con highlighting
+        const codeElem = document.getElementById('code-snippet');
+        if (codeElem) {
+          codeElem.textContent = c.code || '# Código no disponible.';
+          codeElem.className = 'code language-python';
+          
+          // Aplicar syntax highlighting si hljs está disponible
+          if (typeof hljs !== 'undefined') {
+            hljs.highlightElement(codeElem);
+            console.log('  ✓ Código resaltado con Highlight.js');
+          } else {
+            console.warn('  ⚠️ Highlight.js no disponible');
+          }
+        }
+        
+        // Actualizar Try It
+        const tryitElem = document.getElementById('tryit');
+        if (tryitElem) {
+          tryitElem.innerHTML = c.tryit || '<em>Instrucciones no disponibles.</em>';
+          console.log('  ✓ Try it cargado');
+        }
+        
+        // Configurar event listeners para botones
+        const downloadBtn = document.getElementById('download-code');
+        const copyBtn = document.getElementById('copy-code');
+        
+        if (downloadBtn) {
+          downloadBtn.onclick = () => downloadSnippet(c);
+        }
+        if (copyBtn) {
+          copyBtn.onclick = () => copyCode(c);
+        }
+        
+        // Marcar botón activo
+        document.querySelectorAll('.case-btn').forEach(btn => {
+          btn.classList.remove('active');
+        });
+        document.querySelector(`[data-case-id="${c.id}"]`)?.classList.add('active');
+        
+        console.log('✅ Caso mostrado completamente\n');
+        
+      } catch (error) {
+        console.error('❌ ERROR en showCase:', error);
+        console.error('   Stack:', error.stack);
+      }
+    }
+
+    function downloadSnippet(c) {
+      try {
+        console.log(`📥 Descargando: ${c.id}.py`);
+        const code = c.code || '# Código no disponible';
+        const blob = new Blob([code], {type: 'text/plain;charset=utf-8'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = (c.id || 'snippet') + '.py';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+        console.log('✅ Descarga completada');
+      } catch (error) {
+        console.error('❌ ERROR al descargar:', error);
+        alert('❌ Error al descargar el archivo: ' + error.message);
+      }
+    }
+
+    function copyCode(c) {
+      try {
+        const text = c.code || '# Código no disponible';
+        navigator.clipboard.writeText(text).then(() => {
+          console.log('✅ Código copiado al portapapeles');
+          const btn = document.getElementById('copy-code');
+          if (btn) {
+            const original = btn.textContent;
+            btn.textContent = '✓ ¡Copiado!';
+            setTimeout(() => btn.textContent = original, 2000);
+          }
+        }).catch(err => {
+          console.error('❌ ERROR en clipboard:', err);
+          alert('❌ No se pudo copiar al portapapeles');
+        });
+      } catch (error) {
+        console.error('❌ ERROR en copyCode:', error);
+      }
+    }
+
+    // Ejecutar al cargar el DOM
+    if (document.readyState === 'loading') {
+      console.log('📋 DOM aún cargando, esperando DOMContentLoaded...');
+      document.addEventListener('DOMContentLoaded', loadCases);
+    } else {
+      console.log('📋 DOM ya cargado, iniciando loadCases()...');
+      loadCases();
+    }
+    
+    console.log('✨ Script completamente inicializado\n');
+  </script>
+</body>
+</html>

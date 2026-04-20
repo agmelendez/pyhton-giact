@@ -1,0 +1,281 @@
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                                                                           ║
+║                    🗺️  MAPA RÁPIDO DE ARCHIVOS                           ║
+║                                                                           ║
+║              Guía para navegar todos los archivos creados               ║
+║                                                                           ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+🚀 POR DÓNDE EMPEZAR (En orden recomendado)
+═══════════════════════════════════════════════════════════════════════════
+
+1. 📄 INICIO_RAPIDO.md (5 min)
+   ├─ Cómo abrir la interfaz
+   ├─ Cómo ejecutar código
+   └─ Preguntas frecuentes
+
+2. 🌐 index.html (1 click)
+   └─ ABRE EN NAVEGADOR ← Interfaz principal
+
+3. 📖 VISTA_PREVIA.md (2 min)
+   └─ Ve cómo se verá la interfaz
+
+4. 📚 README.md (10 min)
+   └─ Documentación técnica completa
+
+5. 🎓 RESUMEN_EJECUTIVO.md (15 min)
+   └─ Análisis profundo del proyecto
+
+═══════════════════════════════════════════════════════════════════════════
+
+📁 TODOS LOS ARCHIVOS EXPLICADOS
+═══════════════════════════════════════════════════════════════════════════
+
+┌─ INTERFAZ WEB (Abre estos en navegador)
+│
+├─ 🌐 index.html (4.8 KB)
+│  ├─ ¿Qué es? La página web principal
+│  ├─ Cómo usarlo? Doble-clic o arrastra a navegador
+│  ├─ Contiene: HTML + JavaScript para cargar cases.json
+│  └─ Importante: Debe estar en la misma carpeta que styles.css y cases.json
+│
+├─ 🎨 styles.css (4.1 KB)
+│  ├─ ¿Qué es? Estilos CSS de la interfaz
+│  ├─ Cómo usarlo? Se carga automáticamente desde index.html
+│  ├─ Contiene: Colores, tipografía, layouts, responsive design
+│  └─ Personalizar: Edita valores en :root {} para cambiar colores
+│
+└─ 📋 cases.json (26 KB)
+   ├─ ¿Qué es? Base de datos con 4 casos y su contenido
+   ├─ Cómo usarlo? Se carga automáticamente desde index.html
+   ├─ Contiene: 4 casos con teoría, supuestos, práctica, código, tryit
+   ├─ Formato: JSON válido (verificado)
+   └─ Personalizar: Edita en editor de texto, añade nuevos casos
+
+┌─ DOCUMENTACIÓN (Lee con editor de texto)
+│
+├─ 📄 INICIO_RAPIDO.md ⭐ COMIENZA AQUÍ
+│  ├─ ¿Qué es? Guía rápida de 3 pasos para empezar
+│  ├─ Cuándo leer? Primero (5-10 minutos)
+│  ├─ Contiene: Cómo abrir, explorar, ejecutar
+│  └─ Lee si: Es tu primera vez usando la interfaz
+│
+├─ 📄 VISTA_PREVIA.md
+│  ├─ ¿Qué es? Diagrama ASCII de cómo se verá la interfaz
+│  ├─ Cuándo leer? Antes de abrir index.html
+│  ├─ Contiene: Mockups de pantalla, botones, interacciones
+│  └─ Lee si: Quieres saber qué esperar visualment
+│
+├─ 📄 README.md
+│  ├─ ¿Qué es? Documentación técnica completa
+│  ├─ Cuándo leer? Después de INICIO_RAPIDO.md
+│  ├─ Contiene: Instrucciones, estructura, características, usos
+│  └─ Lee si: Necesitas detalles técnicos o personalización
+│
+├─ 📄 ESTRUCTURA_VISUAL.txt
+│  ├─ ¿Qué es? Diagrama ASCII de arquitectura del proyecto
+│  ├─ Cuándo leer? Si necesitas entender la estructura completa
+│  ├─ Contiene: Árbol de archivos, flujo de uso, estadísticas
+│  └─ Lee si: Eres desarrollador o quieres expandir
+│
+├─ 📄 RESUMEN_EJECUTIVO.md
+│  ├─ ¿Qué es? Resumen y análisis del proyecto completo
+│  ├─ Cuándo leer? Para una visión general de todo
+│  ├─ Contiene: Qué se hizo, cómo, decisiones, próximos pasos
+│  └─ Lee si: Eres gestor/director del proyecto
+│
+├─ 📄 CHECKLIST_FINAL.txt ✓
+│  ├─ ¿Qué es? Verificación de integridad del proyecto
+│  ├─ Cuándo leer? Para confirmar que todo está completo
+│  ├─ Contiene: Checklist de archivos, contenido, características
+│  └─ Lee si: Quieres verificar que nada se perdió
+│
+└─ 📄 MAPA_RAPIDO.txt ← Tú estás aquí
+   ├─ ¿Qué es? Este archivo, tu guía de navegación
+   ├─ Cuándo leer? Cuando no sabes qué archivo abrir
+   ├─ Contiene: Descripción de cada archivo y para qué sirve
+   └─ Lee si: Te sientes perdido en la carpeta
+
+┌─ UTILIDADES PYTHON (Ejecuta en terminal)
+│
+├─ 🐍 run_example.py (4.9 KB)
+│  ├─ ¿Qué es? Ejecutor interactivo de ejemplos
+│  ├─ Cómo usarlo? python3 run_example.py
+│  ├─ Requiere: Python 3.8+
+│  ├─ Contiene: Menú de casos, ejecutor de código, exportador
+│  └─ Usa si: Quieres ejecutar ejemplos en terminal
+│
+├─ 🐍 extract_text.py (1.9 KB)
+│  ├─ ¿Qué es? Extractor de texto desde .docx y .pptx
+│  ├─ Cómo usarlo? python3 extract_text.py
+│  ├─ Requiere: python-docx, python-pptx (ve requirements.txt)
+│  ├─ Genera: Archivos .txt en carpeta extracted/
+│  └─ Usa si: Quieres extraer contenido de documentos Office
+│
+└─ 📋 requirements.txt (24 bytes)
+   ├─ ¿Qué es? Lista de dependencias Python
+   ├─ Cómo usarlo? pip install -r requirements.txt
+   ├─ Contiene: python-docx, python-pptx
+   └─ Usa si: Necesitas ejecutar extract_text.py
+
+┌─ CONTENIDO EXTRAÍDO (Archivos de referencia)
+│
+├─ 📄 extracted/Guia_Laboratorios_Python_GIACT_2026.txt (2.4 KB)
+│  ├─ ¿Qué es? Texto extraído de la guía Word
+│  ├─ Fuente: Guia_Laboratorios_Python_GIACT_2026.docx
+│  ├─ Contiene: Información sobre los 20 laboratorios
+│  └─ Consulta: Para entender contexto de los notebooks
+│
+└─ 📄 extracted/Metodos_Analisis_Cuantitativo.txt (44 KB)
+   ├─ ¿Qué es? Texto extraído de la presentación PowerPoint
+   ├─ Fuente: Metodos_Analisis_Cuantitativo.pptx
+   ├─ Contiene: Métodos PY-01 a PY-08+ con detalles
+   └─ Consulta: Para profundizar en conceptos teóricos
+
+═══════════════════════════════════════════════════════════════════════════
+
+🎯 CASOS DE USO: QUÉ ABRIR SEGÚN TUS NECESIDADES
+═══════════════════════════════════════════════════════════════════════════
+
+🎓 Soy estudiante y quiero aprender
+   1. Abre INICIO_RAPIDO.md (5 min)
+   2. Abre index.html en navegador (¡eso es todo!)
+   3. Si surge duda, consulta VISTA_PREVIA.md
+
+👨‍🏫 Soy instructor y quiero personalizar
+   1. Lee README.md para entender estructura
+   2. Edita cases.json con tus propios casos
+   3. Comparte la carpeta con estudiantes
+
+🔧 Soy desarrollador y quiero expandir
+   1. Lee ESTRUCTURA_VISUAL.txt para arquitectura
+   2. Lee RESUMEN_EJECUTIVO.md para decisiones
+   3. Modifica HTML/CSS/JSON según necesites
+
+📊 Soy gestor y quiero reportar estado
+   1. Lee RESUMEN_EJECUTIVO.md
+   2. Consulta CHECKLIST_FINAL.txt
+   3. Lee estadísticas en ESTRUCTURA_VISUAL.txt
+
+🔍 Algo no funciona y busco solución
+   1. Consulta README.md (sección Soporte)
+   2. Verifica CHECKLIST_FINAL.txt
+   3. Ejecuta: python3 -m json.tool cases.json
+
+═══════════════════════════════════════════════════════════════════════════
+
+📐 TAMAÑOS DE ARCHIVOS
+═══════════════════════════════════════════════════════════════════════════
+
+Interfaz web:
+  └─ index.html (4.8 KB)
+  └─ styles.css (4.1 KB)
+  └─ cases.json (26 KB)
+  └─ Subtotal: 34.9 KB
+
+Documentación:
+  └─ INICIO_RAPIDO.md (5.4 KB)
+  └─ VISTA_PREVIA.md (11 KB)
+  └─ README.md (5.5 KB)
+  └─ ESTRUCTURA_VISUAL.txt (10 KB)
+  └─ RESUMEN_EJECUTIVO.md (8.8 KB)
+  └─ CHECKLIST_FINAL.txt (16 KB)
+  └─ MAPA_RAPIDO.txt (este, ~5 KB)
+  └─ Subtotal: ~61.7 KB
+
+Utilidades:
+  └─ run_example.py (4.9 KB)
+  └─ extract_text.py (1.9 KB)
+  └─ requirements.txt (24 bytes)
+  └─ Subtotal: 6.8 KB
+
+Contenido extraído:
+  └─ extracted/Guia_Laboratorios_Python_GIACT_2026.txt (2.4 KB)
+  └─ extracted/Metodos_Analisis_Cuantitativo.txt (44 KB)
+  └─ Subtotal: 46.4 KB
+
+TOTAL: ~150 KB (muy manejable, portátil)
+
+═══════════════════════════════════════════════════════════════════════════
+
+✅ CHECKLIST: ¿TENGO TODO?
+═══════════════════════════════════════════════════════════════════════════
+
+Archivos principales:
+  [✓] index.html          ← Interfaz (ABRE ESTO)
+  [✓] styles.css          ← Estilos
+  [✓] cases.json          ← Contenido (4 casos)
+
+Documentación:
+  [✓] INICIO_RAPIDO.md    ← Guía rápida
+  [✓] README.md           ← Completa
+  [✓] VISTA_PREVIA.md     ← Mockups
+  [✓] ESTRUCTURA_VISUAL.txt ← Técnico
+  [✓] RESUMEN_EJECUTIVO.md  ← Análisis
+  [✓] CHECKLIST_FINAL.txt   ← Verificación
+  [✓] MAPA_RAPIDO.txt     ← Este archivo
+
+Utilidades:
+  [✓] run_example.py      ← Ejecutor
+  [✓] extract_text.py     ← Extractor
+  [✓] requirements.txt    ← Dependencias
+
+Contenido extraído:
+  [✓] extracted/Guia_Laboratorios_Python_GIACT_2026.txt
+  [✓] extracted/Metodos_Analisis_Cuantitativo.txt
+
+═══════════════════════════════════════════════════════════════════════════
+
+🎯 FLUJO RECOMENDADO PRIMER DÍA
+═══════════════════════════════════════════════════════════════════════════
+
+09:00 - Lee INICIO_RAPIDO.md (5 min)
+09:05 - Abre index.html en navegador (haz clic en Árboles de Decisión)
+09:10 - Lee Teoría del caso (5 min)
+09:15 - Lee Supuestos (2 min)
+09:17 - Lee Práctica paso a paso (5 min)
+09:22 - Estudia Código Python (5 min)
+09:27 - Descarga el snippet (.py)
+09:28 - Lee VISTA_PREVIA.md si quieres entender mejor la interfaz (2 min)
+
+TOTAL: ~30 minutos para estar completamente orientado
+
+═══════════════════════════════════════════════════════════════════════════
+
+💡 CONSEJOS
+═══════════════════════════════════════════════════════════════════════════
+
+1. Mantén index.html en la misma carpeta que styles.css y cases.json
+2. No renombres los archivos principales (index.html, styles.css, cases.json)
+3. Si editas cases.json, valida con: python3 -m json.tool cases.json
+4. Para personalizar colores, edita las variables en styles.css
+5. Para agregar casos, copia estructura en cases.json
+
+═══════════════════════════════════════════════════════════════════════════
+
+🌐 PARA COMPARTIR
+═══════════════════════════════════════════════════════════════════════════
+
+Copia TODA la carpeta guided_interface/ a quien quiera usar:
+
+  cp -r guided_interface/ /ruta/destino/
+
+Funcionará inmediatamente. No requiere instalación.
+
+═══════════════════════════════════════════════════════════════════════════
+
+📞 ¿PROBLEMA?
+═══════════════════════════════════════════════════════════════════════════
+
+Si algo no funciona, consulta:
+  → README.md (sección Soporte)
+  → CHECKLIST_FINAL.txt (verificación)
+  → Terminal: python3 -m json.tool cases.json
+
+═══════════════════════════════════════════════════════════════════════════
+
+🎉 ¡LISTO! Ya sabes navegar todos los archivos.
+
+Ahora abre index.html en tu navegador y comienza a aprender.
+
+═══════════════════════════════════════════════════════════════════════════
