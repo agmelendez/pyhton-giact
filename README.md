@@ -29,6 +29,10 @@ python3 -m http.server 8000
 
 ## 📚 Casos Incluidos
 
+La interfaz ahora integra **31 casos**:
+- **20 laboratorios cuantitativos** (PY-01 a PY-20)
+- **11 laboratorios cualitativos** (CUA-01 a CUA-11)
+
 1. **Árboles de Decisión** — Clasificación y predicción en gestión marino-costera
    - Predicción de biodiversidad basada en variables ambientales
    - Ejemplo: clasificación de hábitats por temperatura, salinidad, pH
@@ -44,6 +48,19 @@ python3 -m http.server 8000
 4. **ANOVA** — Comparación de medias entre grupos
    - Test de hipótesis para múltiples regiones/períodos
    - Ejemplo: biodiversidad en 3 regiones costeras
+
+### Nuevos laboratorios cualitativos (CUA-01 a CUA-11)
+- Entrevistas semi-estructuradas
+- Grupos focales
+- Encuestas de percepción (diseño mixto)
+- Mapeo participativo
+- Transectos caminados/navegados
+- Foto-voz (PhotoVoice)
+- Redes sociales cualitativas de gobernanza
+- Revisión documental y análisis de contenido
+- Observación participante
+- Relatos de vida
+- Delphi cualitativo
 
 ---
 
