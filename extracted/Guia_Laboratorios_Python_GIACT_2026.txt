@@ -1,0 +1,29 @@
+Sobre esta guía
+
+Este documento es la referencia oficial de los 20 laboratorios autoguiados del curso de análisis cuantitativo aplicado a ciencias marino-costeras. Cada notebook de Python ha sido revisado, documentado con docstrings y celdas explicativas, y verificado para correr sin errores en entornos Jupyter (local o Google Colab). Los laboratorios están organizados en seis módulos temáticos que progresan desde fundamentos estadísticos hasta técnicas avanzadas de aprendizaje automático y procesamiento de lenguaje natural.
+
+Tabla de Referencia Rápida — Los 20 Laboratorios
+
+Cómo ejecutar los laboratorios
+
+Todos los notebooks están verificados para correr en Google Colab (recomendado para estudiantes sin Python instalado) o en un entorno Jupyter local con Python 3.10+. Para Google Colab, suba el archivo .ipynb directamente desde el menú Archivo > Subir cuaderno.
+
+Instalación de dependencias
+
+Cada notebook incluye una celda de instalación al inicio con pip install para las bibliotecas necesarias. En entornos locales, se recomienda crear un entorno virtual (conda o venv) antes de instalar las dependencias.
+
+Orden recomendado de estudio
+
+Se sugiere seguir el orden numérico por módulos: primero los Fundamentos Estadísticos (PY-01 a PY-03), luego Análisis Multivariado (PY-04 a PY-07), Series de Tiempo (PY-08 a PY-09), Aprendizaje Automático (PY-10 a PY-13), los Cases de Uso aplicados (PY-14 a PY-18), y finalmente los de Web Scraping (PY-19 a PY-20).
+
+Datos y reproducibilidad
+
+Todos los notebooks utilizan datos sintéticos generados con semillas fijas (random_state=42) para garantizar reproducibilidad. Los notebooks de web scraping requieren conexión a internet activa y pueden tener variación en resultados según el contenido disponible en el momento de ejecución.
+
+Ejercicios y evaluación
+
+Cada notebook incluye al final una sección 'Ejercicios para el Estudiante' con 3 actividades de complejidad progresiva. Estos ejercicios están diseñados para reforzar los conceptos del laboratorio mediante modificaciones del código base y análisis de nuevos escenarios.
+
+Notebooks de web scraping (PY-19, PY-20)
+
+Estos dos notebooks requieren conexión a internet activa y acceso a sitios web externos. Los sitios web pueden cambiar su estructura HTML con el tiempo, lo que podría requerir ajustes menores en los selectores de BeautifulSoup. Se recomienda ejecutarlos con datos recientes y verificar los URLs antes de cada ejecución.

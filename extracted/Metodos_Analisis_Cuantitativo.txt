@@ -1,0 +1,2041 @@
+MÉTODOS DE ANÁLISIS CUANTITATIVO
+
+Python Aplicado a Ciencias Marino-Costeras y Análisis de Datos
+
+20 Laboratorios Autoguiados  •  6 Módulos Temáticos
+
+GIACT — 2026
+
+Estructura del Curso
+
+Módulo 1
+
+Fundamentos Estadísticos
+
+PY-01 a PY-03
+
+Módulo 2
+
+Análisis Multivariado
+
+PY-04 a PY-07
+
+Módulo 3
+
+Series de Tiempo
+
+PY-08 a PY-09
+
+Módulo 4
+
+Machine Learning
+
+PY-10 a PY-13
+
+Módulo 5
+
+Cases Marino-Costeros
+
+PY-14 a PY-18
+
+Módulo 6
+
+Web Scraping y NLP
+
+PY-19 a PY-20
+
+01
+
+MÓDULO 01
+
+Fundamentos Estadísticos
+
+Conceptos base de estadística aplicada
+
+02
+
+MÓDULO 02
+
+Análisis Multivariado
+
+Técnicas para múltiples variables
+
+03
+
+MÓDULO 03
+
+Series de Tiempo
+
+Análisis temporal de datos
+
+04
+
+MÓDULO 04
+
+Machine Learning
+
+Algoritmos predictivos y clasificación
+
+05
+
+MÓDULO 05
+
+Cases Marino-Costeros
+
+Aplicaciones a ciencias marinas
+
+06
+
+MÓDULO 06
+
+Web Scraping y NLP
+
+Extracción y procesamiento de texto
+
+MÉTODO
+
+PY-01
+
+Teorema del Límite Central y Teoría de Colas
+
+Convergencia a normalidad y modelado de colas exponenciales
+
+El TLC establece que el promedio de n muestras independientes e idénticamente distribuidas converge a una distribución normal cuando n→∞. En teoría de colas, un sistema M/M/1 modela procesos con llegadas Poisson (tasa λ) y servicio exponencial (tasa μ).
+
+Convergencia a distribución normal con media μ y desviación estándar σ/√n
+Válido para n≥30 incluso con distribuciones originales no normales
+Cola M/M/1: llegadas Poisson, servicio exponencial, 1 servidor
+Requisito fundamental: λ < μ para estabilidad del sistema
+
+Z = (X̄ - μ) / (σ/√n); ρ = λ/μ; W = λ/(μ(μ-λ))
+
+GIACT 2026  |  Módulo 1
+
+SUPUESTOS
+
+PY-01
+
+Supuestos del Método
+
+Variables i.i.d.
+
+Tamaño muestral suficiente
+
+Varianza finita
+
+Estabilidad de la cola (λ < μ)
+
+Proceso Poisson puro
+
+GIACT 2026  |  Módulo 1
+
+PRUEBAS
+
+PY-01
+
+Pruebas a Realizar
+
+1
+
+ks_test(datos, normal_std)
+
+p>0.05 indica que los promedios siguen distribución normal
+
+2
+
+qqplot(promedios)
+
+Puntos sobre la diagonal confirman ajuste a normal; desviaciones indican no-normalidad
+
+3
+
+rho = lambda/mu
+
+Si ρ≥1 el sistema es inestable; ρ próximo a 1 implica colas largas
+
+4
+
+chi2_test(datos, esperado)
+
+p<0.05 rechaza hipótesis nula de igualdad; p>0.05 indica ajuste adecuado
+
+GIACT 2026  |  Módulo 1
+
+ANÁLISIS
+
+PY-01
+
+Análisis e Interpretación
+
+¿Qué observar?
+
+Convergencia visual a distribución normal
+
+Tiempo de espera simulado vs teórico
+
+Utilización del sistema (ρ)
+
+Intervalo de confianza del promedio
+
+Longitud promedio de la cola
+
+Semáforo de resultados
+
+Resultado esperado: análisis concluye satisfactoriamente
+
+Revisar: algún supuesto violado o métrica limítrofe
+
+Problema: repetir análisis o elegir método alternativo
+
+GUÍA: El modelo es válido si TLC se cumple visualmente (histograma normal), ρ<1 asegura estabilidad, y medidas de espera simuladas coinciden con predicciones teóricas dentro de 10-15%.
+
+GIACT 2026  |  Módulo 1
+
+MÉTODO
+
+PY-02
+
+Análisis de Varianza (ANOVA) con Pruebas Post-Hoc
+
+Comparación de medias entre k grupos mediante prueba F
+
+ANOVA es un método estadístico que compara k medias simultáneamente mediante el cociente F = MSentre / MSdentro. Rechaza hipótesis nula si hay diferencias significativas entre grupos.
+
+Generalización de prueba t para dos grupos a k > 2 grupos
+Controla tasa de error tipo I global mediante ANOVA en lugar de k pruebas t
+F = MSentre / MSdentro sigue distribución F(k − 1, n − k) bajo H0
+Requiere pruebas post-hoc (Tukey HSD) para identificar pares que difieren
+
+F = SSentre / (k − 1)
+─────────────
+SSdentro / (n − k)
+
+η² = SSentre / SStotal
+
+GIACT 2026  |  Módulo 1
+
+SUPUESTOS
+
+PY-02
+
+Supuestos del Método
+
+Normalidad por grupo
+
+Homocedasticidad
+
+Independencia de observaciones
+
+Escala continua
+
+Muestreo aleatorio
+
+GIACT 2026  |  Módulo 1
+
+PRUEBAS
+
+PY-02
+
+Pruebas a Realizar
+
+1
+
+shapiro_test(grupo_i)
+
+p>0.05 en todos los grupos sugiere distribuciones normales; si p<0.05 considerar transformación
+
+2
+
+levene_test(grupos)
+
+p>0.05 indica varianzas iguales; p<0.05 sugiere heteroscedasticidad
+
+3
+
+anova(grupo1, grupo2, ..., grupok)
+
+p<α rechaza H₀ (hay diferencias); p>α no rechaza H₀ (medias iguales)
+
+4
+
+tukey_hsd(anova_result)
+
+p<α para par específico indica diferencia significativa entre esos grupos
+
+GIACT 2026  |  Módulo 1
+
+ANÁLISIS
+
+PY-02
+
+Análisis e Interpretación
+
+¿Qué observar?
+
+p-valor de ANOVA
+
+η² (eta-cuadrado)
+
+Tukey HSD (pairwise comparisons)
+
+Tamaño de efecto (Cohen's d)
+
+Gráfico de medias con IC
+
+Semáforo de resultados
+
+Resultado esperado: análisis concluye satisfactoriamente
+
+Revisar: algún supuesto violado o métrica limítrofe
+
+Problema: repetir análisis o elegir método alternativo
+
+GUÍA: ANOVA es significativo (p<0.05) y η² mediano-grande si el factor explica proporción sustancial de varianza; Tukey HSD guía si hay diferencias entre pares específicos.
+
+GIACT 2026  |  Módulo 1
+
+MÉTODO
+
+PY-03
+
+Principios de Diseño Experimental
+
+Estructura y análisis de experimentos con control y replicación
+
+Experimento controlado asigna aleatoriamente unidades a grupos de tratamiento vs control, replica observaciones en cada grupo, y utiliza ANOVA para comparar efectos. La aleatorización minimiza sesgos por variables de confusión.
+
+Aleatorización: asignación aleatoria de unidades a tratamientos/control
+Control: grupo control recibe placebo o no-tratamiento como referencia
+Replicación: múltiples unidades por grupo para estimar variabilidad
+ANOVA y pruebas post-hoc para análisis estadístico formal
+
+Efecto = Media_tratamiento - Media_control; η² = SS_tratamiento / SS_total
+
+GIACT 2026  |  Módulo 1
+
+SUPUESTOS
+
+PY-03
+
+Supuestos del Método
+
+Normalidad y homocedasticidad
+
+Asignación aleatoria efectiva
+
+Unidades homogéneas
+
+Independencia de grupos
+
+Replicación adecuada
+
+GIACT 2026  |  Módulo 1
+
+PRUEBAS
+
+PY-03
+
+Pruebas a Realizar
+
+1
+
+balance_check(grupo_asignado, variables)
+
+Pruebas t entre grupos para covariables deben dar p>0.10; diferencias grandes sugieren falla en aleatorización
+
+2
+
+shapiro_test(residuos_grupo)
+
+p>0.05 sugiere normalidad adecuada para ANOVA
+
+3
+
+levene_test(residuos_grupos)
+
+p>0.05 indica varianzas homogéneas; si p<0.05 considerar transformación
+
+4
+
+anova(grupos); tukey_hsd(resultado)
+
+ANOVA p<0.05 indica efecto del tratamiento; Tukey identifica qué pares difieren
+
+GIACT 2026  |  Módulo 1
+
+ANÁLISIS
+
+PY-03
+
+Análisis e Interpretación
+
+¿Qué observar?
+
+Balance de covariables
+
+Efecto del tratamiento (ANOVA)
+
+Potencia estadística
+
+Comparaciones planificadas vs post-hoc
+
+Interpretación causal
+
+Semáforo de resultados
+
+Resultado esperado: análisis concluye satisfactoriamente
+
+Revisar: algún supuesto violado o métrica limítrofe
+
+Problema: repetir análisis o elegir método alternativo
+
+GUÍA: Experimento válido si balance pre-tratamiento es adecuado, supuestos ANOVA se cumplen, efecto es significativo (p<0.05) y tamaño de efecto es sustancial (η²>0.06 o d>0.5).
+
+GIACT 2026  |  Módulo 1
+
+MÉTODO
+
+PY-04
+
+Análisis de Componentes Principales (PCA) — Fundamentos
+
+Transformación ortogonal para reducción dimensional
+
+PCA es una transformación ortogonal que reexpresa variables originales como combinaciones lineales no correlacionadas (componentes principales) ordenadas decrecientemente por varianza explicada. Reduce dimensionalidad preservando máxima información.
+
+Componentes = combinaciones lineales ortogonales de variables originales
+Ordenados por varianza decreciente: PC1 > PC2 > ... > PCp
+Loadings = pesos que combinan variables originales en cada PC
+Scores = proyección de observaciones en espacio de componentes principales
+
+PC_i = w_i1·X_1 + w_i2·X_2 + ... + w_ip·X_p; Var(PC_1) ≥ Var(PC_2) ≥ ... ≥ Var(PC_p)
+
+GIACT 2026  |  Módulo 2
+
+SUPUESTOS
+
+PY-04
+
+Supuestos del Método
+
+Variables continuas
+
+Correlaciones lineales
+
+Sin multicolinealidad perfecta
+
+Estandarización de datos
+
+Tamaño muestral adecuado
+
+GIACT 2026  |  Módulo 2
+
+PRUEBAS
+
+PY-04
+
+Pruebas a Realizar
+
+1
+
+kmo_test(datos)
+
+KMO≥0.6 indica PCA es apropiado; <0.5 sugiere variables no correlacionadas
+
+2
+
+bartlett_test(datos)
+
+p<0.05 rechaza independencia entre variables; PCA útil si p<0.05
+
+3
+
+scree_plot(varianzas_PCs)
+
+Codo indica número óptimo de PCs a retener; usualmente después caída pronunciada
+
+4
+
+cumsum(varianzas_explicadas)
+
+Retener PCs hasta acumular 70-80% varianza según aplicación
+
+GIACT 2026  |  Módulo 2
+
+ANÁLISIS
+
+PY-04
+
+Análisis e Interpretación
+
+¿Qué observar?
+
+Punto de codo en scree plot
+
+Loadings > |0.5|
+
+Biplot vectores
+
+Scores de observaciones
+
+Reducción dimensional lograda
+
+Semáforo de resultados
+
+Resultado esperado: análisis concluye satisfactoriamente
+
+Revisar: algún supuesto violado o métrica limítrofe
+
+Problema: repetir análisis o elegir método alternativo
+
+GUÍA: PCA es exitoso si KMO≥0.6, Bartlett p<0.05, codo está claro, y 70-80% varianza se alcanza con pocas PCs (k<p); interpretación de loadings guía significado de componentes.
+
+GIACT 2026  |  Módulo 2
+
+MÉTODO
+
+PY-05
+
+Análisis de Componentes Principales (PCA) — Versión Extendida
+
+Análisis comparativo y diagnóstico con diferentes tamaños muestrales
+
+Extensión de PCA fundamental que examina estabilidad de soluciones con variaciones en n (submuestras), validación de estrutura de correlación, y reproducibilidad de loadings. Incluye análisis de círculo de correlación y detección de variables redundantes.
+
+Comparación de loadings entre n=100 vs n=500 para evaluar estabilidad
+Matrices de correlación como input alternativo para PCA en variables estandarizadas
+Círculo de correlación visualiza contribución y correlación de variables con PCs
+Variables con correlaciones altas (r>0.8) son redundantes; puede eliminarse una
+
+Estabilidad = correlación de loadings(n₁) con loadings(n₂); círculo unitario: PC_1² + PC_2² = 1
+
+GIACT 2026  |  Módulo 2
+
+SUPUESTOS
+
+PY-05
+
+Supuestos del Método
+
+Supuestos básicos de PCA
+
+Estabilidad de estructura de correlación
+
+Ausencia de outliers influyentes
+
+Reproducibilidad esperada
+
+Proporción n vs p adecuada
+
+GIACT 2026  |  Módulo 2
+
+PRUEBAS
+
+PY-05
+
+Pruebas a Realizar
+
+1
+
+pearson_corr_matrix(datos)
+
+Variables con |r|>0.8 son candidatas a eliminación; reducir colinealidad
+
+2
+
+kmo_test(n100); kmo_test(n500)
+
+KMO debe ser ≥0.6 en ambas para PCA válido; Bartlett p<0.05
+
+3
+
+var_explained(pc1, pc2, ...)
+
+Varianzas deben ser similares (diferencia <5-10%); divergencia sugiere inestabilidad
+
+4
+
+pairplot(datos_n100) vs pairplot(datos_n500)
+
+Patrones similares entre submuestras indican estructura estable
+
+GIACT 2026  |  Módulo 2
+
+ANÁLISIS
+
+PY-05
+
+Análisis e Interpretación
+
+¿Qué observar?
+
+Comparación de loadings (n=100 vs n=500)
+
+Identificar variables redundantes
+
+Círculo de correlación
+
+Ángulos en círculo
+
+Validación de k componentes
+
+Semáforo de resultados
+
+Resultado esperado: análisis concluye satisfactoriamente
+
+Revisar: algún supuesto violado o métrica limítrofe
+
+Problema: repetir análisis o elegir método alternativo
+
+GUÍA: PCA extendido es válido si loadings son reproducibles entre submuestras (r>0.90), variables no-redundantes son identificadas, y círculo de correlación muestra distribución clara de variables sin solapamiento excesivo.
+
+GIACT 2026  |  Módulo 2
+
+MÉTODO
+
+PY-06
+
+Análisis de Conglomerados K-Means
+
+Particionamiento iterativo en k clusters homogéneos
+
+K-Means es algoritmo de clustering que asigna n observaciones a k clusters (definidos a priori) minimizando suma de cuadrados intra-cluster (SSE). Itera entre asignación a centroides y actualización de centroides hasta convergencia.
+
+Objetivo: minimizar SSE = Σ||x_i - centroide_k||² dentro de clusters
+Requiere estandarización de variables para comparabilidad de escalas
+Número k puede definirse a priori o determinarse por método del codo
+Converge localmente; aleatorización múltiple de iniciales mejora solución
+
+SSE = Σ_k Σ_{i∈cluster_k} ||x_i - μ_k||²; μ_k = promedio de observaciones en cluster k
+
+GIACT 2026  |  Módulo 2
+
+SUPUESTOS
+
+PY-06
+
+Supuestos del Método
+
+Forma esférica de clusters
+
+Tamaño similar entre clusters
+
+Variables en escala comparable
+
+k conocido o estimable
+
+Distancia Euclídea válida
+
+GIACT 2026  |  Módulo 2
+
+PRUEBAS
+
+PY-06
+
+Pruebas a Realizar
+
+1
+
+plot(k_range, sse_values)
+
+Codo = cambio drástico en pendiente; retener k en punto de codo
+
+2
+
+silhouette_analysis(clusters)
+
+Silueta ∈ [-1, 1]; >0.5 = bien separado, <0.2 = solapado, negativos = mal asignados
+
+3
+
+gap_statistic(datos, k_max)
+
+Máximo gap statistic sugiere k óptimo; alternativa a método del codo
+
+4
+
+davies_bouldin_index(clusters)
+
+DB<1 indica clusters bien separados; DB>3 sugiere solapamiento
+
+GIACT 2026  |  Módulo 2
+
+ANÁLISIS
+
+PY-06
+
+Análisis e Interpretación
+
+¿Qué observar?
+
+Punto de codo en SSE
+
+Silueta promedio > 0.5
+
+Perfil de clusters (medias por variable)
+
+Tamaños de clusters
+
+Estabilidad de clusters
+
+Semáforo de resultados
+
+Resultado esperado: análisis concluye satisfactoriamente
+
+Revisar: algún supuesto violado o métrica limítrofe
+
+Problema: repetir análisis o elegir método alternativo
+
+GUÍA: K-Means es exitoso si método del codo es claro, silueta promedio es >0.5 y consistente entre clusters, perfil de clusters es interpretable y diferenciado, y resultado es replicable.
+
+GIACT 2026  |  Módulo 2
+
+MÉTODO
+
+PY-07
+
+Regresión Múltiple con Diagnóstico de Multicolinealidad
+
+Modelado de Y basado en múltiples predictores con diagnóstico de violaciones
+
+Regresión múltiple modela relación lineal Y = β₀ + β₁X₁ + ... + βₙXₙ + ε estimada por Mínimos Cuadrados Ordinarios (OLS). Supuestos LINE (Linealidad, Independencia, Normalidad, Equivariance) y bajo VIF (ausencia multicolinealidad) son críticos.
+
+OLS minimiza suma de cuadrados de residuos Σ(y_i - ŷ_i)²
+Supuestos LINE más diagnóstico de multicolinealidad (VIF) aseguran validez de inferencia
+VIF = 1/(1-R²ⱼ) mide inflación de varianza de βⱼ por correlación con otros predictores
+Observaciones influyentes (Cook's D>1) pueden distorsionar regresión
+
+Ŷ = β₀ + β₁X₁ + ... + βₙXₙ; R² = 1 - SS_residual/SS_total; VIF_j = 1/(1-R²_j)
+
+GIACT 2026  |  Módulo 2
+
+SUPUESTOS
+
+PY-07
+
+Supuestos LINE + Multicolinealidad
+
+Linealidad
+
+Independencia de residuos
+
+Normalidad de residuos
+
+Homocedasticidad (Equivariance)
+
+Bajo VIF (no multicolinealidad)
+
+GIACT 2026  |  Módulo 2
+
+PRUEBAS
+
+PY-07
+
+Pruebas a Realizar
+
+1
+
+vif(modelo_regresion)
+
+VIF<5 aceptable; 5-10 moderado; >10 severo; considerar eliminar predictores altamente correlacionados
+
+2
+
+shapiro_test(residuos)
+
+p>0.05 sugiere normalidad; p<0.05 rechaza normalidad; transformación de Y si falla
+
+3
+
+plot(modelo_regresion)
+
+Residuos sin patrón = linealidad válida; Q-Q sobre diagonal = normalidad
+
+4
+
+durbin_watson(residuos)
+
+DW ≈ 2 indica no-autocorrelación; <2 autocorrelación positiva, >2 negativa
+
+GIACT 2026  |  Módulo 2
+
+ANÁLISIS
+
+PY-07
+
+Análisis e Interpretación
+
+¿Qué observar?
+
+R² y R² ajustado
+
+p-valores de coeficientes
+
+Interpretación de β
+
+VIF de predictores
+
+Cook's D para observaciones influyentes
+
+Semáforo de resultados
+
+Resultado esperado: análisis concluye satisfactoriamente
+
+Revisar: algún supuesto violado o métrica limítrofe
+
+Problema: repetir análisis o elegir método alternativo
+
+GUÍA: Regresión válida si supuestos LINE se cumplen (gráficos diagnósticos sin patrones), VIF de todos predictores <5, y coeficientes significativos tienen signos esperados y magnitudes razonables.
+
+GIACT 2026  |  Módulo 2
+
+MÉTODO
+
+PY-08
+
+Series de Tiempo y Pronóstico ARIMA
+
+Componentes autorregresivos, integración y media móvil
+
+ARIMA(p,d,q) combina Autorregresión (AR=p lags de valores pasados), Integración (I=d diferenciaciones), y Media Móvil (MA=q lags de errores pasados). Modela series estacionarias y las hace estacionarias mediante diferenciación.
+
+AR(p): regresión de y_t sobre p valores pasados y_{t-1}, ..., y_{t-p}
+I(d): d diferenciaciones para alcanzar estacionariedad; d=1 diferencia simple, d=2 segunda diferencia
+MA(q): regresión de y_t sobre q errores pasados ε_{t-1}, ..., ε_{t-q}
+Flexibilidad: puede modelar tendencias (I), autocorrelación (AR), e innovaciones (MA)
+
+ARIMA: Δ^d y_t = β₀ + Σᵢ φᵢ Δ^d y_{t-i} + Σⱼ θⱼ ε_{t-j} + ε_t
+
+GIACT 2026  |  Módulo 3
+
+SUPUESTOS
+
+PY-08
+
+Supuestos del Método
+
+Estacionariedad
+
+Linealidad de relaciones
+
+Residuos como ruido blanco
+
+Sin patrones sistemáticos en residuos
+
+Proceso reversible
+
+GIACT 2026  |  Módulo 3
+
+PRUEBAS
+
+PY-08
+
+Pruebas a Realizar
+
+1
+
+adf_test(serie_tiempo)
+
+p<0.05 rechaza H₀; serie estacionaria. p>0.05 → no estacionaria, necesita diferenciación
+
+2
+
+acf_plot(serie)
+
+Corte abrupto alrededor de lag q sugiere MA(q); decaimiento lento sugiere AR o diferenciación
+
+3
+
+pacf_plot(serie)
+
+Corte abrupto alrededor de lag p sugiere AR(p); decaimiento lento sugiere MA o necesita diferenciación
+
+4
+
+ljung_box_test(residuos_modelo)
+
+p>0.05 sugiere residuos son ruido blanco; p<0.05 indica autocorrelación remanente
+
+GIACT 2026  |  Módulo 3
+
+ANÁLISIS
+
+PY-08
+
+Análisis e Interpretación
+
+¿Qué observar?
+
+ADF p-valor
+
+ACF corte vs decaimiento
+
+PACF corte vs decaimiento
+
+Comparación AIC/BIC entre modelos
+
+Pronóstico con IC 95%
+
+Semáforo de resultados
+
+Resultado esperado: análisis concluye satisfactoriamente
+
+Revisar: algún supuesto violado o métrica limítrofe
+
+Problema: repetir análisis o elegir método alternativo
+
+GUÍA: Modelo ARIMA es válido si ADF p<0.05 (estacionariedad), ACF/PACF identifican órdenes claros, Ljung-Box p>0.05 en residuos, y AIC/BIC es mínimo entre alternativas.
+
+GIACT 2026  |  Módulo 3
+
+MÉTODO
+
+PY-09
+
+Pronóstico de Lluvia Mensual con SARIMAX
+
+Modelado de series con patrones estacionales y variables externas
+
+SARIMAX(p,d,q)(P,D,Q,s) extiende ARIMA con componentes estacionales P,D,Q de periodo s (e.g., s=12 para datos mensuales anuales). Incluye variables exógenas (regresores externos). Ideal para lluvia monthly con ciclo anual fuerte.
+
+P,D,Q son órdenes estacionales; s=12 para anual, s=4 para trimestral, s=7 para semanal
+D diferenciación estacional (s pasos atrás); usualmente D=0 o 1
+Variables exógenas: predictores externos (e.g., temperatura, presión) incluidos como regresores
+Descomposición previa en tendencia, estacional, residuo ayuda a especificar órdenes
+
+SARIMAX: Δ^d Δ_s^D y_t = β₀ + Σ φ_i y_{t-i} + Σ Φ_j y_{t-sj} + Σ θ_k ε_{t-k} + Σ Θ_l ε_{t-sl} + Σ γ_r X_{t-r} + ε_t
+
+GIACT 2026  |  Módulo 3
+
+SUPUESTOS
+
+PY-09
+
+Supuestos del Método
+
+Estacionariedad (con diferenciación)
+
+Patrón estacional estable
+
+Período s conocido
+
+Variables exógenas disponibles para pronóstico
+
+Relaciones estables en tiempo
+
+GIACT 2026  |  Módulo 3
+
+PRUEBAS
+
+PY-09
+
+Pruebas a Realizar
+
+1
+
+seasonal_decompose(serie, period=12)
+
+Componente estacional consistente año a año válida aplicación de SARIMAX
+
+2
+
+acf_plot(serie, nlags=60)
+
+Picos en lags 12, 24, ... indican estacionalidad; ACF abrupto → Q, PACF abrupto → P
+
+3
+
+rmse(real, predicho); mae(real, predicho)
+
+RMSE bajo = pronóstico preciso; MAE promedio de errores absolutos
+
+4
+
+ljung_box_test(residuos)
+
+p>0.05 indica ausencia de autocorrelación; modelo adecuado
+
+GIACT 2026  |  Módulo 3
+
+ANÁLISIS
+
+PY-09
+
+Análisis e Interpretación
+
+¿Qué observar?
+
+Descomposición estacional
+
+RMSE bajo vs baseline
+
+Residuos sin autocorrelación
+
+IC 95% del pronóstico
+
+Comparación de múltiples SARIMAX(p,d,q)(P,D,Q,12)
+
+Semáforo de resultados
+
+Resultado esperado: análisis concluye satisfactoriamente
+
+Revisar: algún supuesto violado o métrica limítrofe
+
+Problema: repetir análisis o elegir método alternativo
+
+GUÍA: SARIMAX es válido si descomposición muestra estacionalidad clara, RMSE es significativamente mejor que baseline, residuos son ruido blanco (Ljung-Box p>0.05), e IC del pronóstico son razonables en amplitud.
+
+GIACT 2026  |  Módulo 3
+
+MÉTODO
+
+PY-10
+
+Árboles de Decisión para Gestión Marino-Costera
+
+Método no-paramétrico para clasificación y decisión
+
+Árbol de decisión es modelo que particiona recursivamente el espacio de características seleccionando en cada nodo la variable y umbral que maximiza ganancia de información (medida por Gini o entropía). Genera reglas interpretables para predicción y toma de decisiones.
+
+Particionamiento recursivo: divide datos en subgrupos cada vez más puros
+Criterio de split: Gini impurity o información (entropía); busca minimizar impureza en hojas
+No-paramétrico: sin supuestos distribucionales; maneja relaciones no-lineales naturalmente
+Interpretabilidad: reglas de decisión en forma de árbol fáciles de comunicar
+
+Gini = 1 - Σ(p_k)²; Ganancia de Información = Gini(padre) - Σ(n_hijo/n_padre)·Gini(hijo)
+
+GIACT 2026  |  Módulo 4
+
+SUPUESTOS
+
+PY-10
+
+Supuestos del Método
+
+Sin supuestos distribucionales
+
+Tamaño muestral suficiente
+
+Independencia de observaciones
+
+Variables de entrada continuas o categóricas
+
+Balance de clases
+
+GIACT 2026  |  Módulo 4
+
+PRUEBAS
+
+PY-10
+
+Pruebas a Realizar
+
+1
+
+cross_validate(modelo, k=5)
+
+Error CV similar a error test sugiere baja varianza del modelo; divergencia indica overfitting
+
+2
+
+plot(profundidad, error_cv)
+
+Codo en curva sugiere profundidad óptima; después crece error (overfitting)
+
+3
+
+confusion_matrix(y_true, y_pred)
+
+Diagonal alta = buenas predicciones; valores off-diagonal son errores de tipo I y II
+
+4
+
+feature_importance(modelo)
+
+Importancia guía selección de indicadores más relevantes para gestión
+
+GIACT 2026  |  Módulo 4
+
+ANÁLISIS
+
+PY-10
+
+Análisis e Interpretación
+
+¿Qué observar?
+
+Accuracy
+
+F1-score
+
+Profundidad óptima
+
+Importancia de variables
+
+Reglas interpretables
+
+Semáforo de resultados
+
+Resultado esperado: análisis concluye satisfactoriamente
+
+Revisar: algún supuesto violado o métrica limítrofe
+
+Problema: repetir análisis o elegir método alternativo
+
+GUÍA: Árbol de decisión es útil para gestión marino-costera si accuracy y F1-score son >80%, profundidad es manejable (<=7), importancia de variables identifica indicadores clave, y reglas son interpretables por gestores.
+
+GIACT 2026  |  Módulo 4
+
+MÉTODO
+
+PY-11
+
+Clasificación Probabilística con Naive Bayes
+
+Teorema de Bayes: P(clase|X) ∝ P(X|clase)×P(clase)
+
+Naive Bayes es un clasificador probabilístico basado en el teorema de Bayes que asume independencia condicional entre características dada la clase. GaussianNB asume distribución normal para datos continuos.
+
+P(clase|X) proporcional a P(X|clase)×P(clase)
+Supuesto naive: independencia condicional entre características
+GaussianNB modela cada predictor con distribución normal por clase
+Cálculo eficiente incluso con muchas variables
+
+P(clase|X) = P(X|clase)×P(clase) / P(X)
+
+GIACT 2026  |  Módulo 4
+
+SUPUESTOS
+
+PY-11
+
+Supuestos del Método
+
+Independencia condicional
+
+Distribución normal (GaussianNB)
+
+Tamaño de muestra mínimo
+
+Independencia de observaciones
+
+GIACT 2026  |  Módulo 4
+
+PRUEBAS
+
+PY-11
+
+Pruebas a Realizar
+
+1
+
+plt.hist(X[y==clase], bins=20)
+
+Distribuciones simétricas y gaussoides confirman supuesto de normalidad; sesgos importantes pueden indicar transformación necesaria
+
+2
+
+confusion_matrix(y_true, y_pred)
+
+Diagonal principal alta = buen clasificador; valores altos fuera diagonal = confusión entre clases específicas
+
+3
+
+cross_val_score(modelo, X, y, cv=5, scoring='accuracy')
+
+Accuracy promedio ≥0.70 generalmente aceptable; baja varianza entre folds (std<0.05) indica estabilidad
+
+4
+
+roc_curve(y_true, y_proba); auc_score(y_true, y_proba)
+
+AUC > 0.80 indica discriminación excelente; curva cerca diagonal = clasificador poco mejor que azar
+
+GIACT 2026  |  Módulo 4
+
+ANÁLISIS
+
+PY-11
+
+Análisis e Interpretación
+
+¿Qué observar?
+
+Accuracy
+
+Probabilidades predichas
+
+Recall (Sensibilidad)
+
+Precisión
+
+Estabilidad entre folds
+
+Semáforo de resultados
+
+Resultado esperado: análisis concluye satisfactoriamente
+
+Revisar: algún supuesto violado o métrica limítrofe
+
+Problema: repetir análisis o elegir método alternativo
+
+GUÍA: El modelo es exitoso si accuracy≥0.70, AUC>0.80 en binaria, recall y precisión balanceados según contexto, y CV muestra baja varianza entre folds.
+
+GIACT 2026  |  Módulo 4
+
+MÉTODO
+
+PY-12
+
+Redes Neuronales Artificiales y Deep Learning
+
+Aprendizaje multicapa mediante backpropagation
+
+Las redes neuronales artificiales son modelos con múltiples capas de neuronas conectadas que ajustan pesos mediante backpropagation. Forward pass propaga entrada → capas ocultas con ReLU → salida con softmax para clasificación.
+
+Arquitectura: capas de entrada → capas ocultas (ReLU) → salida (softmax)
+Backpropagation calcula gradientes y ajusta pesos iterativamente
+ReLU (Rectified Linear Unit) = max(0, x) introduce no-linealidad
+Softmax en salida convierte logits a probabilidades para clasificación
+
+Forward: h = ReLU(X @ W1 + b1); salida = softmax(h @ W2 + b2)
+
+GIACT 2026  |  Módulo 4
+
+SUPUESTOS
+
+PY-12
+
+Supuestos del Método
+
+Suficiente tamaño de muestra
+
+Variables de entrada normalizadas
+
+Arquitectura apropiada
+
+Etiquetas correctamente codificadas
+
+GIACT 2026  |  Módulo 4
+
+PRUEBAS
+
+PY-12
+
+Pruebas a Realizar
+
+1
+
+plt.plot(history.history['loss']); plt.plot(history.history['val_loss'])
+
+Paralelas decrecientes = buena generalización; train<<val = overfitting (añadir Dropout/L2); ambas altas = underfitting (mayor capacidad)
+
+2
+
+EarlyStopping(monitor='val_loss', patience=5)
+
+Época de parada temprana indica convergencia; paciencia baja (3-5) evita entrenamientos innecesarios
+
+3
+
+confusion_matrix(y_test, predictions.argmax(axis=1))
+
+Diagonal principal alta; valores altos fuera = confusión sistemática entre pares de clases específicas
+
+4
+
+classification_report(y_test, y_pred, target_names=...)
+
+Recall<0.60 en una clase = modelo lucha con esa clase; investigar desbalance de datos o complejidad
+
+GIACT 2026  |  Módulo 4
+
+ANÁLISIS
+
+PY-12
+
+Análisis e Interpretación
+
+¿Qué observar?
+
+Divergencia train vs val accuracy
+
+Ambas métricas bajas
+
+Validación accuracy estable
+
+Clase con mayor error
+
+Semáforo de resultados
+
+Resultado esperado: análisis concluye satisfactoriamente
+
+Revisar: algún supuesto violado o métrica limítrofe
+
+Problema: repetir análisis o elegir método alternativo
+
+GUÍA: Modelo exitoso si val_accuracy ≥0.80, curva de aprendizaje convergida sin divergencia extreme, y desempeño balanceado entre clases sin errores sistemáticos.
+
+GIACT 2026  |  Módulo 4
+
+MÉTODO
+
+PY-13
+
+Codificación Automática de Preguntas Abiertas con NLP
+
+Lematización → TF-IDF → Similitud Coseno
+
+Pipeline NLP que lematiza respuestas abiertas con spaCy, vectoriza mediante TF-IDF y calcula similitud coseno respecto a categorías de referencia. Clasificación temática combinada con palabras clave y expresiones regulares.
+
+Lematización: convertir palabras a forma canónica (corrieron → correr)
+TF-IDF: peso = frecuencia término × rareza en corpus
+Similitud coseno: ángulo entre vectores TF-IDF; rango [0,1]
+Palabras clave y regex para validación y refinamiento de categorías
+
+similitud_coseno(u, v) = (u·v) / (||u|| × ||v||)
+
+GIACT 2026  |  Módulo 4
+
+SUPUESTOS
+
+PY-13
+
+Supuestos del Método
+
+Modelo bag-of-words
+
+Independencia estadística entre términos
+
+Texto suficientemente largo
+
+Idioma consistente
+
+GIACT 2026  |  Módulo 4
+
+PRUEBAS
+
+PY-13
+
+Pruebas a Realizar
+
+1
+
+plt.hist([cosine_similarity(doc, ref) for doc in respuestas], bins=30)
+
+Distribución bimodal = categorías bien separadas; uniformemente distribuida = categorías superpuestas; muchos valores bajos<0.3 = respuestas mal clasificadas
+
+2
+
+Counter([token.lemma_ for token in doc if not token.is_stop])
+
+Términos únicos con alta frecuencia = buenos descriptores; términos presentes en todas las categorías = poco informativos
+
+3
+
+WordCloud(').generate(texto_categoria)
+
+Tamaño de palabra = frecuencia; términos centrales validar coherencia temática; términos periféricos revisar si son ruido
+
+4
+
+value_counts(categorias_asignadas)
+
+Distribución similar a expectativa teórica = buen categorización; sesgo extremo = revisar categoría dominante o umbral de similitud
+
+GIACT 2026  |  Módulo 4
+
+ANÁLISIS
+
+PY-13
+
+Análisis e Interpretación
+
+¿Qué observar?
+
+Similitud coseno >0.7
+
+TF-IDF alto en un término
+
+Distribución de categorías
+
+Palabras clave extraídas
+
+Semáforo de resultados
+
+Resultado esperado: análisis concluye satisfactoriamente
+
+Revisar: algún supuesto violado o métrica limítrofe
+
+Problema: repetir análisis o elegir método alternativo
+
+GUÍA: Codificación exitosa si similitud coseno promedio ≥0.65, términos discriminatorios tienen sentido temático, distribución de categorías razonable, y validación manual de muestras concuerda con automatización.
+
+GIACT 2026  |  Módulo 4
+
+MÉTODO
+
+PY-14
+
+Variación de Poblaciones de Plancton — PCA Aplicado
+
+Reducción de dimensionalidad: 5 variables → componentes principales
+
+PCA (análisis de componentes principales) transforma 5 variables ambientales correlacionadas (temperatura, salinidad, clorofila, nitrato, fitoplancton) en componentes no correlacionadas que capturan gradientes oceanográficos principales.
+
+Componentes principales: direcciones de máxima varianza en los datos
+PC1 típicamente captura gradiente temperatura-salinidad
+PC2 puede capturar productividad (clorofila-nitrato)
+Número de componentes retenidos: varianza acumulada ≥80-90%
+
+PC1 = a1×T + a2×S + a3×Chl + a4×NO3 + a5×Fito (pesos a optimizados)
+
+GIACT 2026  |  Módulo 5
+
+SUPUESTOS
+
+PY-14
+
+Supuestos del Método
+
+Correlaciones lineales
+
+Variables estandarizadas
+
+Representatividad espacial
+
+Número suficiente de observaciones
+
+GIACT 2026  |  Módulo 5
+
+PRUEBAS
+
+PY-14
+
+Pruebas a Realizar
+
+1
+
+corr_matrix = df[['T','S','Chl','NO3','Fito']].corr(); sns.heatmap(corr_matrix)
+
+Correlaciones |r|>0.7 = variables altamente correlacionadas, PCA las separa en componentes; correlaciones bajas = PCA menos beneficioso
+
+2
+
+cumsum(pca.explained_variance_ratio_)
+
+PC1+PC2 explican ≥60% = 2D retiene mucha información; <3 componentes para 80% = reducción efectiva; >5 necesarios = variables débilmente correlacionadas
+
+3
+
+plt.arrow(0,0,pca.components_[0,0],pca.components_[1,0])
+
+Vectores grandes = variable importante en esa PC; vectores paralelos = variables correlacionadas; perpendiculares = independientes
+
+4
+
+loadings = pca.components_; mask = abs(loadings)>0.5
+
+Pocas variables por componente = interpretación clara; muchas = componente combina múltiples gradientes; facilita nombrado ecológico
+
+GIACT 2026  |  Módulo 5
+
+ANÁLISIS
+
+PY-14
+
+Análisis e Interpretación
+
+¿Qué observar?
+
+PC1 como gradiente T-S
+
+PC2 como productividad
+
+Agrupación de estaciones
+
+Interpretación ecológica
+
+Semáforo de resultados
+
+Resultado esperado: análisis concluye satisfactoriamente
+
+Revisar: algún supuesto violado o métrica limítrofe
+
+Problema: repetir análisis o elegir método alternativo
+
+GUÍA: Análisis exitoso si PC1+PC2 explican ≥60% de varianza, cada componente tiene interpretación ecológica clara con 2-3 variables dominantes, y agrupación de estaciones tiene sentido geográfico.
+
+GIACT 2026  |  Módulo 5
+
+MÉTODO
+
+PY-15
+
+Efecto de Intensidad Lumínica en Algas — ANOVA Aplicado
+
+ANOVA de una vía: 4 tratamientos de luz × 10 réplicas
+
+ANOVA (análisis de varianza) de una vía contrasta si la tasa de crecimiento de algas difiere significativamente entre 4 niveles de intensidad lumínica. Particiona varianza total en entre-grupos y dentro-grupos.
+
+Variable respuesta: tasa de crecimiento μ/día (continua)
+Variable factor: intensidad lumínica (4 niveles categóricos)
+Estadístico F = varianza entre grupos / varianza dentro grupos
+Prueba de hipótesis: H0 todas las medias iguales vs H1 al menos una diferente
+
+F = MS_entre / MS_dentro donde MS = suma cuadrados / grados de libertad
+
+GIACT 2026  |  Módulo 5
+
+SUPUESTOS
+
+PY-15
+
+Supuestos del Método
+
+Normalidad
+
+Homocedasticidad
+
+Independencia
+
+Ausencia de outliers extremos
+
+GIACT 2026  |  Módulo 5
+
+PRUEBAS
+
+PY-15
+
+Pruebas a Realizar
+
+1
+
+shapiro(crecimiento[intensidad=='baja'])
+
+p>0.05 = datos normales para ese grupo (bueno); p<0.05 = desviación de normalidad; si muchos grupos no normales, considerar transformación (log, sqrt)
+
+2
+
+levene(crecimiento[intensidad=='baja'], crecimiento[intensidad=='media'], ...)
+
+p>0.05 = varianzas iguales (supuesto cumplido, ANOVA válido); p<0.05 = varianzas desiguales (Welch ANOVA más robusto)
+
+3
+
+f_oneway(grupo_baja, grupo_media, grupo_alta, grupo_muy_alta)
+
+p<0.001 = diferencias altamente significativas entre al menos dos intensidades; p>0.05 = sin diferencias detectadas
+
+4
+
+pairwise_tukeyhsd(endog=crecimiento, groups=intensidad, alpha=0.05)
+
+p-valor <0.05 en una comparación = esas intensidades generan crecimiento estadísticamente distinto; tabla muestra todos los pares
+
+GIACT 2026  |  Módulo 5
+
+ANÁLISIS
+
+PY-15
+
+Análisis e Interpretación
+
+¿Qué observar?
+
+F significativo (p<0.001)
+
+Tukey HSD pairwise
+
+Eta-squared (η²)
+
+Gráfico de medias
+
+Semáforo de resultados
+
+Resultado esperado: análisis concluye satisfactoriamente
+
+Revisar: algún supuesto violado o métrica limítrofe
+
+Problema: repetir análisis o elegir método alternativo
+
+GUÍA: Análisis exitoso si F p<0.001, Shapiro y Levene cumplen (p>0.05), Tukey HSD identifica contrastes claros, y η² indica efecto sustancial (≥0.20).
+
+GIACT 2026  |  Módulo 5
+
+MÉTODO
+
+PY-16
+
+Identificación de Hábitats de Peces — Clustering Aplicado
+
+K-Means: 200 localidades → k hábitats oceanográficos
+
+K-Means agrupa 200 localidades marinas basadas en 4 variables ambientales (temperatura, salinidad, profundidad, oxígeno) tras estandarización. Cada cluster representa un hábitat ecológicamente diferenciado.
+
+Estandarizar variables antes de clustering; evita que escala mayor domime distancia
+Inicializar k centroides aleatoriamente
+Iteración: asignar puntos al centroide más cercano, actualizar centroides
+Convergencia: minimizar suma de cuadrados dentro de clusters (SSE)
+
+SSE = Σ Σ ||punto - centroide_k||² (suma sobre puntos y clusters)
+
+GIACT 2026  |  Módulo 5
+
+SUPUESTOS
+
+PY-16
+
+Supuestos del Método
+
+Clusters ecológicamente diferenciados
+
+Variables capturan heterogeneidad
+
+Distancia euclidiana significativa
+
+Clusters convexos similares tamaños
+
+GIACT 2026  |  Módulo 5
+
+PRUEBAS
+
+PY-16
+
+Pruebas a Realizar
+
+1
+
+SSE = [KMeans(k).inertia_ for k in range(2,11)]; plt.plot(SSE)
+
+Codo pronunciado en k=3 o k=4 sugiere ese es número natural de hábitats; curva suave = difícil elegir, validar con silueta
+
+2
+
+silhouette_score(X_scaled, labels) para cada k
+
+Silueta >0.3 = clusters útiles; >0.5 = excelentes; <0.2 = solapados; máximo de silueta sugiere k óptimo
+
+3
+
+silhouette_samples(X_scaled, labels)
+
+Valores negativos = punto más cerca de otro cluster que el propio; revisar localidades con silueta<0 para validación ecológica
+
+4
+
+df.groupby('cluster')[['temp','sal','prof','O2']].agg(['mean','std'])
+
+Perfiles distintos justifican k clusters; solapamiento de rangos = hábitats similares; permite nombrado (aguas profundas frías, someras cálidas, etc.)
+
+GIACT 2026  |  Módulo 5
+
+ANÁLISIS
+
+PY-16
+
+Análisis e Interpretación
+
+¿Qué observar?
+
+k óptimo (codo + silueta)
+
+Silueta promedio ≥0.3
+
+Perfiles de cluster distintos
+
+Interpretación ecológica
+
+Semáforo de resultados
+
+Resultado esperado: análisis concluye satisfactoriamente
+
+Revisar: algún supuesto violado o métrica limítrofe
+
+Problema: repetir análisis o elegir método alternativo
+
+GUÍA: Clustering exitoso si codo y silueta concuerdan en k, silueta promedio ≥0.3, perfiles de cluster son ecológicamente interpretables y distintos, y tamaños de cluster razonables.
+
+GIACT 2026  |  Módulo 5
+
+MÉTODO
+
+PY-17
+
+Predicción de Migración de Peces — Regresión Múltiple Aplicada
+
+OLS: distancia_migración ~ temperatura + salinidad + velocidad_corriente
+
+Regresión OLS (mínimos cuadrados ordinarios) predice distancia de migración de 200 peces marcados usando 3 predictores ambientales. Evalúa si relaciones son lineales o requieren términos cuadráticos.
+
+Modelo lineal: Y = β0 + β1×T + β2×S + β3×V_corriente
+β1 = km adicionales por °C; interpretación directa de coeficientes
+Residuos deben ser normales, homocedasticos, independientes
+Comparar AIC modelo lineal vs cuadrático para seleccionar estructura
+
+Y = β0 + Σβi×Xi + ε donde ε ~ N(0,σ²)
+
+GIACT 2026  |  Módulo 5
+
+SUPUESTOS
+
+PY-17
+
+Supuestos del Método
+
+Linealidad
+
+Independencia de errores
+
+Homocedasticidad
+
+Multicolinealidad baja
+
+Normalidad de residuos
+
+GIACT 2026  |  Módulo 5
+
+PRUEBAS
+
+PY-17
+
+Pruebas a Realizar
+
+1
+
+vif([temperatura, salinidad, velocidad_corriente])
+
+VIF<2 = baja colinealidad (ideal); VIF 2-5 = moderada, aceptable; VIF>5 = alta, considerar eliminar predictor correlacionado
+
+2
+
+plot(modelo_residuos) o diagnostic_plots(residuos)
+
+Panel 1 (residuos vs ajustados): patrón aleatorio = bueno, patrón en abanico = heterocedasticidad; Panel 2 (Q-Q): puntos en diagonal = normalidad
+
+3
+
+shapiro(residuos)
+
+p>0.05 = residuos normales (supuesto cumplido); p<0.05 = desviación de normalidad; si muestral grande, pequeñas desviaciones pueden ser significativas pero poco prácticamente importantes
+
+4
+
+AIC_lineal = 2k + n×ln(RSS/n) para modelo Y~X; AIC_quad para Y~X+X²
+
+AIC menor = mejor balance complejidad-ajuste; diferencia AIC>10 = fuerte evidencia por modelo menor; <2 = modelos equivalentes
+
+GIACT 2026  |  Módulo 5
+
+ANÁLISIS
+
+PY-17
+
+Análisis e Interpretación
+
+¿Qué observar?
+
+Coeficiente β temperatura
+
+R² = proporción de varianza explicada
+
+VIF>5 indica colinealidad
+
+Cook's D >1 para outliers
+
+Semáforo de resultados
+
+Resultado esperado: análisis concluye satisfactoriamente
+
+Revisar: algún supuesto violado o métrica limítrofe
+
+Problema: repetir análisis o elegir método alternativo
+
+GUÍA: Modelo válido si linealidad confirmada (residuos aleatorios), Shapiro p>0.05, VIF<5, R²≥0.50, y Cook's D<1 para mayoría de puntos.
+
+GIACT 2026  |  Módulo 5
+
+MÉTODO
+
+PY-18
+
+Valoración Socioeconómica de Praderas Marinas
+
+Integración: análisis ecológico + económico + social
+
+Análisis multidimensional que combina datos ecológicos (extensión, cobertura), económicos (valor de servicios), sociales (percepciones mediante análisis de sentimiento con TextBlob y nubes de palabras de respuestas cualitativas).
+
+Análisis de sentimiento: TextBlob polaridad [-1,1] de respuestas cualitativas
+Nube de palabras: visualiza términos frecuentes ponderados por apariciones
+Escala Likert (1-5) como proxy continuo de preferencias/conocimiento sociales
+Correlación cruzada entre variables ecológicas, económicas y sociales
+
+Sentimiento_promedio = Σ polaridad_respuesta / n_respuestas
+
+GIACT 2026  |  Módulo 5
+
+SUPUESTOS
+
+PY-18
+
+Supuestos del Método
+
+TextBlob entrenado en inglés
+
+Muestra representativa de comunidades
+
+Escala Likert como continuo
+
+Independencia de respuestas
+
+GIACT 2026  |  Módulo 5
+
+PRUEBAS
+
+PY-18
+
+Pruebas a Realizar
+
+1
+
+TextBlob(texto_traducido).sentiment.polarity
+
+Polaridad >0.3 = actitud positiva; <-0.3 = negativa; [-0.3,0.3] = neutral; promedio de comunidad = sentimiento agregado
+
+2
+
+pearsonr(extension_praderium pearson(extension_praderium valor_economico)
+
+|r| >0.6 = correlación fuerte; significancia p<0.05; puede justificar inversión en conservación
+
+3
+
+plt.hist([conocimiento_praderium plt.hist([participacion_conservacion], ...)
+
+Distribuciones balanceadas = muestra representativa; sesgos = grupos subrepresentados o resistentes
+
+4
+
+corr(conocimiento_pradera, horas_voluntariado_conservacion)
+
+r>0.4 = conocimiento impulsa acción; r<0.2 = brecha conocimiento-acción (comunicación científica insuficiente)
+
+GIACT 2026  |  Módulo 5
+
+ANÁLISIS
+
+PY-18
+
+Análisis e Interpretación
+
+¿Qué observar?
+
+Sentimiento promedio positivo
+
+Correlaciones fuertes |r|>0.6
+
+Brecha conocimiento-acción
+
+Nube de palabras dominante
+
+Semáforo de resultados
+
+Resultado esperado: análisis concluye satisfactoriamente
+
+Revisar: algún supuesto violado o métrica limítrofe
+
+Problema: repetir análisis o elegir método alternativo
+
+GUÍA: Valoración exitosa si sentimiento promedio >0.2, correlaciones ecológico-económicas significativas (p<0.05), participación razonable (≥30% involucramiento), y nube de palabras revela percepciones realistas.
+
+GIACT 2026  |  Módulo 5
+
+MÉTODO
+
+PY-19
+
+Web Scraping y Análisis de Sentimiento en Noticias
+
+HTTP → BeautifulSoup → TextBlob
+
+Pipeline que realiza HTTP GET a URLs de noticias, parsea HTML con BeautifulSoup, extrae texto, y calcula polaridad (positiva/negativa) y subjetividad (opinión/factual) con TextBlob.
+
+HTTP GET: solicitar página web; status 200 = éxito
+BeautifulSoup: parsear HTML, extraer etiquetas <p>, <h1>, <article>
+TextBlob: procesar texto en inglés para análisis de sentimiento
+Sentimiento: polaridad [-1,1], subjetividad [0,1]
+
+sentimiento_promedio = Σ (polaridad_artículo × peso) / Σ peso
+
+GIACT 2026  |  Módulo 6
+
+SUPUESTOS
+
+PY-19
+
+Supuestos del Método
+
+Sitios accesibles sin autenticación
+
+HTML sin JavaScript dinámico
+
+TextBlob en inglés
+
+Estructura HTML estable
+
+GIACT 2026  |  Módulo 6
+
+PRUEBAS
+
+PY-19
+
+Pruebas a Realizar
+
+1
+
+if response.status_code != 200: print('Error acceso')
+
+200 = OK; 404 = no encontrado (URL expirada); 403 = acceso bloqueado; 500 = error servidor; silenciar errores y pasar a siguiente URL
+
+2
+
+if len(texto) < 100: skip_article
+
+Texto<100 chars = probablemente mal parseado (cambio de estructura web); registrar y revisar
+
+3
+
+boxplot([sentimientos_BBC, sentimientos_CNN, sentimientos_RT])
+
+Medias claramente separadas = sesgos editorialales distintos; BBC ~0, RT <-0.3 = sesgo documentado; solapamiento = narrativas similares
+
+4
+
+por_tema = {tema: [sent for sent, t in zip(sentimientos, temas) if t==tema]}; print(mean(por_tema))
+
+Ej. tema 'economía' sentimiento -0.1 (crítico) vs 'tecnología' +0.2 (optimista) = cobertura temática diferencial
+
+GIACT 2026  |  Módulo 6
+
+ANÁLISIS
+
+PY-19
+
+Análisis e Interpretación
+
+¿Qué observar?
+
+Sentimiento promedio por medio
+
+Distribución de sentimientos
+
+Subjetividad alta
+
+Comparación entre medios de un tema
+
+Semáforo de resultados
+
+Resultado esperado: análisis concluye satisfactoriamente
+
+Revisar: algún supuesto violado o métrica limítrofe
+
+Problema: repetir análisis o elegir método alternativo
+
+GUÍA: Análisis exitoso si status_code=200 para ≥80% URLs, texto extraído promedia >500 chars, distribución de sentimientos diferencia medios documentados, y subjetividad coherente con tipo de artículo.
+
+GIACT 2026  |  Módulo 6
+
+MÉTODO
+
+PY-20
+
+Web Scraping Avanzado y Análisis Comparativo de Medios
+
+Google News RSS → Trafilatura → Deep-Translator → TextBlob
+
+Pipeline avanzado que utiliza feeds RSS de Google News para búsquedas automáticas, resuelve redirecciones, extrae contenido completo con trafilatura, traduce al inglés, y analiza sentimiento/subjetividad comparativamente entre medios.
+
+Google News RSS: búsquedas site-específicas (site:bbc.com) en Google News RSS
+Trafilatura: extracción robusta de contenido principal (ignora publicidad, sidebars)
+Deep-Translator: traducción automática preserva sentido mejor que Google Translate
+Análisis comparativo: mapa de calor sentimiento × medio × tema
+
+comparación = matriz[medio × tema] = {sentimiento_promedio, cobertura#articulos}
+
+GIACT 2026  |  Módulo 6
+
+SUPUESTOS
+
+PY-20
+
+Supuestos del Método
+
+URLs de Google News RSS estables
+
+Trafilatura extrae contenido principal
+
+Traducción preserva sentido
+
+Muestra representativa de cobertura
+
+GIACT 2026  |  Módulo 6
+
+PRUEBAS
+
+PY-20
+
+Pruebas a Realizar
+
+1
+
+n_por_medio = {medio: len([a for a in articulos if a.medio==medio])}; assert all(n≥5 for n in n_por_medio.values())
+
+5-10 artículos = muestra marginal; ≥15 = análisis robusto; <5 = insuficiente, búsqueda ampliada necesaria
+
+2
+
+heatmap(pivot_table(data, values='sentimiento', index='medio', columns='tema'))
+
+Colores cálidos (rojo) = sentimiento positivo por medio-tema; fríos (azul) = negativo; variación horizontal = diferencias entre medios
+
+3
+
+scatter(x=subjetividad, y=sentimiento, hue=medio, s=cobertura#)
+
+BBC esperado cuadrante bajo-izquierdo (bajo subj, ~0 sent); Fox cuadrante alto-derecho (alto subj, sent extremo)
+
+4
+
+antes = sentiment[date<evento]; despues = sentiment[date>evento]; ttest(antes, despues)
+
+p<0.05 = cambio significativo; dirección de cambio revela si evento impactó percepción (positivo o negativo)
+
+GIACT 2026  |  Módulo 6
+
+ANÁLISIS
+
+PY-20
+
+Análisis e Interpretación
+
+¿Qué observar?
+
+Mapa de calor sentimiento × medio
+
+Sesgo editorial
+
+Subjetividad alta + sentimiento extremo
+
+Cambio de narrativa pre/post evento
+
+Semáforo de resultados
+
+Resultado esperado: análisis concluye satisfactoriamente
+
+Revisar: algún supuesto violado o métrica limítrofe
+
+Problema: repetir análisis o elegir método alternativo
+
+GUÍA: Análisis exitoso si ≥5 artículos por medio, mapa de calor diferencia medios documentados, sesgo editorial cuantificable, y cambios narrativos pre/post detectables (p<0.05).
+
+GIACT 2026  |  Módulo 6
