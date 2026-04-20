@@ -38,33 +38,50 @@
         <p id="case-source" class="muted"></p>
       </section>
 
-      <section class="panel">
-        <h3>Teoría</h3>
-        <div id="theory" class="content"></div>
+      <section class="panel" data-collapsible-panel>
+        <div class="panel-header">
+          <h3>Teoría</h3>
+          <button class="toggle-panel-btn" type="button" aria-expanded="true">Reducir</button>
+        </div>
+        <div id="theory" class="content panel-content"></div>
       </section>
 
-      <section class="panel">
-        <h3>Supuestos</h3>
-        <div id="assumptions" class="content"></div>
+      <section class="panel" data-collapsible-panel>
+        <div class="panel-header">
+          <h3>Supuestos</h3>
+          <button class="toggle-panel-btn" type="button" aria-expanded="true">Reducir</button>
+        </div>
+        <div id="assumptions" class="content panel-content"></div>
       </section>
 
-      <section class="panel">
-        <h3>Práctica — Ejemplo paso a paso</h3>
-        <div id="practice" class="content"></div>
+      <section class="panel" data-collapsible-panel>
+        <div class="panel-header">
+          <h3>Práctica — Ejemplo paso a paso</h3>
+          <button class="toggle-panel-btn" type="button" aria-expanded="true">Reducir</button>
+        </div>
+        <div id="practice" class="content panel-content"></div>
       </section>
 
-      <section class="panel">
-        <h3>Fragmento de código</h3>
-        <pre><code id="code-snippet" class="code language-python"># Selecciona un caso para ver código...</code></pre>
-        <div class="code-actions">
-          <button id="download-code" class="btn-primary">Descargar snippet (.py)</button>
-          <button id="copy-code" class="btn-secondary">Copiar al portapapeles</button>
+      <section class="panel" data-collapsible-panel>
+        <div class="panel-header">
+          <h3>Fragmento de código</h3>
+          <button class="toggle-panel-btn" type="button" aria-expanded="true">Reducir</button>
+        </div>
+        <div class="panel-content">
+          <pre><code id="code-snippet" class="code language-python"># Selecciona un caso para ver código...</code></pre>
+          <div class="code-actions">
+            <button id="download-code" class="btn-primary">Descargar snippet (.py)</button>
+            <button id="copy-code" class="btn-secondary">Copiar al portapapeles</button>
+          </div>
         </div>
       </section>
 
-      <section class="panel">
-        <h3>Try it — Instrucciones</h3>
-        <div id="tryit" class="content"></div>
+      <section class="panel" data-collapsible-panel>
+        <div class="panel-header">
+          <h3>Try it — Instrucciones</h3>
+          <button class="toggle-panel-btn" type="button" aria-expanded="true">Reducir</button>
+        </div>
+        <div id="tryit" class="content panel-content"></div>
       </section>
     </main>
   </div>
@@ -77,6 +94,20 @@
     console.log('🚀 Iniciando interfaz de casos...');
     
     let casesData = [];
+
+    function setupCollapsiblePanels() {
+      document.querySelectorAll('[data-collapsible-panel]').forEach((panel) => {
+        const btn = panel.querySelector('.toggle-panel-btn');
+        const content = panel.querySelector('.panel-content');
+        if (!btn || !content) return;
+
+        btn.addEventListener('click', () => {
+          const isCollapsed = panel.classList.toggle('is-collapsed');
+          btn.textContent = isCollapsed ? 'Ampliar' : 'Reducir';
+          btn.setAttribute('aria-expanded', String(!isCollapsed));
+        });
+      });
+    }
 
     // Carga el manifiesto de casos desde cases.json
     async function loadCases() {
@@ -278,9 +309,13 @@
     // Ejecutar al cargar el DOM
     if (document.readyState === 'loading') {
       console.log('📋 DOM aún cargando, esperando DOMContentLoaded...');
-      document.addEventListener('DOMContentLoaded', loadCases);
+      document.addEventListener('DOMContentLoaded', () => {
+        setupCollapsiblePanels();
+        loadCases();
+      });
     } else {
       console.log('📋 DOM ya cargado, iniciando loadCases()...');
+      setupCollapsiblePanels();
       loadCases();
     }
     
