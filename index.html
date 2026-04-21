@@ -113,6 +113,20 @@
     }
 
     function detectarTipoAnalisis(caso) {
+      const id = normalizarTexto(caso.id);
+      const titulo = normalizarTexto(caso.title);
+      const source = normalizarTexto(caso.source);
+
+      // Regla explícita para los nuevos laboratorios cualitativos
+      if (id.startsWith('cuali-') || titulo.startsWith('cua-')) {
+        return 'cualitativo';
+      }
+
+      // Scripts cualitativos en raíz con numeración 01..11
+      if (/^(0[1-9]|10|11)_/.test(source)) {
+        return 'cualitativo';
+      }
+
       const texto = normalizarTexto(`${caso.title} ${caso.source} ${caso.id}`);
       const pistasCualitativas = [
         'cualitativo',
@@ -137,7 +151,17 @@
       if (!list) return;
 
       list.innerHTML = '';
-      const casosFiltrados = (casesData.cases || []).filter((caso) => caso.analysisType === activeFilter);
+      const casosFiltrados = (casesData.cases || [])
+        .filter((caso) => caso.analysisType === activeFilter)
+        .sort((a, b) => {
+          // Orden estable y explícito para CUA-01..CUA-11
+          const aMatch = (a.id || '').match(/^cuali-(\d{2})-/i);
+          const bMatch = (b.id || '').match(/^cuali-(\d{2})-/i);
+          if (aMatch && bMatch) return Number(aMatch[1]) - Number(bMatch[1]);
+          if (aMatch) return -1;
+          if (bMatch) return 1;
+          return (a.title || '').localeCompare(b.title || '', 'es');
+        });
 
       if (casosFiltrados.length === 0) {
         list.innerHTML = '<li><em style="color: #999;">No hay casos disponibles para este tipo de análisis.</em></li>';
@@ -225,7 +249,7 @@
 
         data.cases = data.cases.map((caso) => ({
           ...caso,
-          analysisType: detectarTipoAnalisis(caso)
+          analysisType: caso.analysisType || detectarTipoAnalisis(caso)
         }));
         renderCaseList();
         
