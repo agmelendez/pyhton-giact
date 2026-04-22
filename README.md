@@ -132,6 +132,7 @@ Esto genera archivos `.txt` en la carpeta `extracted/` que se usaron para crear 
 - Añade más casos copiando la estructura de un caso existente.
 - Comparte el archivo `index.html` con estudiantes (funciona offline).
 - Embebe en tu LMS o plataforma de aprendizaje.
+- Si editas teoría/supuestos cualitativos en Markdown, ejecuta `python sync_cualitativos_to_cases.py` para reflejar los cambios en el sitio.
 
 ---
 
@@ -151,6 +152,16 @@ Para añadir un nuevo caso, edita `cases.json` y añade un objeto con esta estru
   "tryit": "<h4>Cómo ejecutar:</h4><ol>...</ol>"
 }
 ```
+
+### Sincronizar laboratorios cualitativos (MD → sitio)
+
+Cuando actualices `metodos_cualitativos_marino_costeros_actualizado.md`, ejecuta:
+
+```bash
+python sync_cualitativos_to_cases.py
+```
+
+Esto actualiza automáticamente los campos `theory` y `assumptions` de `cuali-01` a `cuali-11` dentro de `cases.json`.
 
 ---
 
